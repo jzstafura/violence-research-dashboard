@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experimental Violence Research Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container { position: relative; width: 100%; height: 350px; }
+        .roadmap-step { cursor: pointer; transition: all 0.3s ease; }
+        .roadmap-step:hover { transform: translateY(-3px); }
+        .toggle-active { background-color: #1e3a8a; color: white; }
+        .pulse-node { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <header class="bg-[#1e3a8a] text-white py-10 px-4 text-center shadow-md">
+        <h1 class="text-3xl font-bold tracking-tight">Experimental Violence Research</h1>
+        <p class="text-blue-200 mt-2">Micro-Macro Synthesis & Digital Event Modeling</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Escalation Roadmap -->
+        <section class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-blue-500">
+            <h2 class="text-xl font-bold text-[#1e3a8a] mb-6">Escalation Roadmap</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div onclick="updateRoadmap(1)" class="roadmap-step p-4 rounded bg-slate-50 border border-slate-200 text-center">
+                    <span class="block text-xl mb-1">📱</span>
+                    <span class="text-xs font-bold uppercase">Digital Discourse</span>
+                </div>
+                <div onclick="updateRoadmap(2)" class="roadmap-step p-4 rounded bg-slate-50 border border-slate-200 text-center">
+                    <span class="block text-xl mb-1">⚖️</span>
+                    <span class="text-xs font-bold uppercase">Meso-Tension</span>
+                </div>
+                <div onclick="updateRoadmap(3)" class="roadmap-step p-4 rounded bg-blue-50 border-2 border-blue-500 text-center pulse-node" id="active-step">
+                    <span class="block text-xl mb-1">💥</span>
+                    <span class="text-xs font-bold uppercase">Flashpoints</span>
+                </div>
+                <div onclick="updateRoadmap(4)" class="roadmap-step p-4 rounded bg-slate-50 border border-slate-200 text-center">
+                    <span class="block text-xl mb-1">👊</span>
+                    <span class="text-xs font-bold uppercase">Micro-Violence</span>
+                </div>
+            </div>
+            <div class="mt-6 bg-slate-900 text-white p-4 rounded-lg" id="roadmap-box">
+                <h3 class="font-bold text-blue-400" id="roadmap-title">Stage 3: Flashpoints</h3>
+                <p class="text-sm mt-1" id="roadmap-desc">Tracking sudden environmental changes (shocks) via ACLED/GDELT that act as natural treatments in our models.</p>
+            </div>
+        </section>
+
+        <!-- Visualization Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="font-bold mb-4">Research Risk-Factor Matrix</h3>
+                <div class="chart-container"><canvas id="bubbleChart"></canvas></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="font-bold mb-4">Methodology Breakdown</h3>
+                <div class="chart-container"><canvas id="pieChart"></canvas></div>
+            </div>
+        </div>
+
+        <!-- Filterable Table -->
+        <section class="bg-white p-6 rounded-xl shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold">Literature Library</h3>
+                <select onchange="filterTable(this.value)" class="text-sm border p-1 rounded bg-slate-50">
+                    <option value="all">All Sources</option>
+                    <option value="Twitter">Twitter</option>
+                    <option value="ACLED">ACLED</option>
+                </select>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-50 text-slate-500 uppercase text-[10px] font-bold">
+                        <tr>
+                            <th class="p-3">Study</th>
+                            <th class="p-3">Source</th>
+                            <th class="p-3">Key Metric</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr class="border-t" data-src="Twitter">
+                            <td class="p-3 font-medium">Peterson (2023)</td>
+                            <td class="p-3">Twitter</td>
+                            <td class="p-3 text-blue-600">+18% Aggression</td>
+                        </tr>
+                        <tr class="border-t" data-src="ACLED">
+                            <td class="p-3 font-medium">Mueller (2021)</td>
+                            <td class="p-3">ACLED</td>
+                            <td class="p-3 text-blue-600">d = 0.45</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const roadmapData = {
+            1: ["Stage 1: Digital Discourse", "NLP analysis of pre-ritual emotional energy in online forums."],
+            2: ["Stage 2: Meso-Tension", "The formation of digital echo chambers and group-based polarization."],
+            3: ["Stage 3: Flashpoints", "Tracking sudden environmental changes (shocks) via ACLED/GDELT that act as natural treatments."],
+            4: ["Stage 4: Micro-Violence", "The Collins threshold: situational variables that turn tension into physical action."]
+        };
+
+        function updateRoadmap(step) {
+            document.getElementById('roadmap-title').innerText = roadmapData[step][0];
+            document.getElementById('roadmap-desc').innerText = roadmapData[step][1];
+            document.querySelectorAll('.roadmap-step').forEach((el, i) => {
+                el.className = (i + 1 === step) ? "roadmap-step p-4 rounded bg-blue-50 border-2 border-blue-500 text-center pulse-node" : "roadmap-step p-4 rounded bg-slate-50 border border-slate-200 text-center";
+            });
+        }
+
+        function filterTable(val) {
+            document.querySelectorAll('#table-body tr').forEach(row => {
+                row.style.display = (val === 'all' || row.dataset.src === val) ? 'table-row' : 'none';
+            });
+        }
+
+        window.onload = () => {
+            new Chart(document.getElementById('bubbleChart'), {
+                type: 'bubble',
+                data: {
+                    datasets: [
+                        { label: 'Threat', data: [{x: 8, y: 9, r: 20}], backgroundColor: '#1e3a8a' },
+                        { label: 'Economics', data: [{x: 4, y: 5, r: 15}], backgroundColor: '#f97316' }
+                    ]
+                },
+                options: { maintainAspectRatio: false }
+            });
+
+            new Chart(document.getElementById('pieChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Survey Exp', 'Quasi-Exp', 'Other'],
+                    datasets: [{ data: [45, 35, 20], backgroundColor: ['#1e3a8a', '#3b82f6', '#cbd5e1'] }]
+                },
+                options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+        };
+    </script>
+</body>
+</html>
