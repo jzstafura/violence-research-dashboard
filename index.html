@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V-Project: Verified Master Theory Dashboard</title>
+    <title>V-Project: Violence Research Dashboard (JSON-Powered)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -11,280 +11,362 @@
         .chart-container { position: relative; width: 100%; max-width: 600px; margin: auto; height: 350px; }
         @media (min-width: 768px) { .chart-container { height: 400px; } }
         .table-container { overflow-x: auto; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border-radius: 0.5rem; }
-        .lit-row:hover { background-color: #f8fafc; }
+        .lit-row:hover { background-color: #f8fafc; cursor: pointer; }
+        .lit-row.hidden { display: none; }
         .toggle-active { background-color: #1e3a8a; color: white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); }
         .apa-link { color: #2563eb; text-decoration: underline; font-size: 0.75rem; display: block; margin-top: 0.25rem; font-weight: 600; }
+        .apa-link:hover { color: #1e40af; }
         .domain-tag { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+        .export-btn { transition: all 0.2s; }
+        .export-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); }
+        .loading { text-align: center; padding: 2rem; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
 
     <header class="bg-[#1e3a8a] text-white py-12 px-4 shadow-lg text-center">
         <div class="max-w-6xl mx-auto">
-            <h1 class="text-3xl md:text-5xl font-bold mb-4 tracking-tight">V-PROJECT: Master Theory Dashboard</h1>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 tracking-tight">V-PROJECT: Violence Research Dashboard</h1>
             <p class="text-lg text-blue-200 font-light max-w-3xl mx-auto">
-                Verified Multi-Domain Synthesis: Integrating Cog-Neuro, Structural Determinants, and Climatic Multipliers.
+                Multi-Domain Evidence Synthesis: Integrating Cognitive-Neuroscience, Structural Determinants, and Environmental Multipliers
             </p>
+            <div class="mt-4 flex flex-wrap justify-center gap-3 text-sm">
+                <a href="https://github.com/jzstafura/violence-research-dashboard" target="_blank" 
+                   class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-md font-semibold transition">
+                    View on GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/jzstafura" target="_blank" 
+                   class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-md font-semibold transition">
+                    Contact Author
+                </a>
+            </div>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8 space-y-10">
 
-        <!-- Theoretical Sandbox: Viral Analogy -->
-        <section class="bg-white rounded-xl shadow-md p-6 border-b-4 border-blue-500">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                <div class="text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-[#1e3a8a]">Mechanisms of Action</h2>
-                    <p class="text-sm text-gray-500 italic">"Violence as a Viral Infection": Baseline vulnerability meets environmental catalysts.</p>
-                </div>
-                <div class="flex flex-wrap justify-center gap-2 bg-slate-100 p-1 rounded-md">
-                    <button id="btn-gam" onclick="togglePerspective('gam')" class="px-4 py-2 text-xs font-bold rounded-md toggle-active">The GAM Loop</button>
-                    <button id="btn-gst" onclick="togglePerspective('gst')" class="px-4 py-2 text-xs font-bold rounded-md">Strain Theory</button>
-                    <button id="btn-history" onclick="togglePerspective('history')" class="px-4 py-2 text-xs font-bold rounded-md">Path Dependence</button>
-                    <button id="btn-hi" onclick="togglePerspective('hi')" class="px-4 py-2 text-xs font-bold rounded-md">Horizontal Inequality</button>
-                </div>
-            </div>
-            <div id="perspective-content" class="bg-blue-50 p-6 rounded-lg border border-blue-100 min-h-[160px]">
-                <!-- Content Injected via JS -->
-            </div>
-        </section>
-
-        <!-- Master Literature Library -->
-        <section>
-            <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
-                <h3 class="text-2xl font-bold text-[#1e3a8a]">Master Evidence Library (Verified Links)</h3>
-                <div class="flex gap-2">
-                    <select id="dataFilter" onchange="filterTable()" class="p-2 rounded border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                        <option value="all">All Domains</option>
-                        <option value="Theory">Integrative Theory</option>
-                        <option value="Structural">Structural/Social</option>
-                        <option value="Bio">Bio/Env</option>
-                        <option value="Psych">Psych/Clinical</option>
-                        <option value="Comm">Comm/Digital</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="table-container bg-white">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-[#1e3a8a] text-white text-[10px] uppercase tracking-widest">
-                            <th class="p-4 border-b w-[45%]">Full APA 7th Edition Citation</th>
-                            <th class="p-4 border-b">Domain</th>
-                            <th class="p-4 border-b">Core Synthesis of Findings</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lit-body" class="text-sm">
-                        <!-- THEORETICAL ENTRIES -->
-                        <tr class="lit-row border-b" data-source="Theory">
-                            <td class="p-4">
-                                <span class="block leading-snug">Allen, J. J., & Anderson, C. A. (2017). General Aggression Model. <em>International Encyclopedia of Media Effects</em>.</span>
-                                <a href="https://doi.org/10.1002/9781118783764.wbieme0078" target="_blank" class="apa-link">View Full Article (Wiley)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-blue-100 text-blue-800">Theory</span></td>
-                            <td class="p-4 text-xs">Defines the cognitive-neuro loop: Person/Situation inputs → Internal state (Affect/Arousal) → Outcomes.</td>
-                        </tr>
-                        <tr class="lit-row border-b" data-source="Theory">
-                            <td class="p-4">
-                                <span class="block leading-snug">Agnew, R. (1992). Foundation for a general strain theory of crime and delinquency. <em>Criminology</em>, 30(1), 47-88.</span>
-                                <a href="https://doi.org/10.1111/j.1745-9125.1992.tb01093.x" target="_blank" class="apa-link">View Full Article (Criminology)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-blue-100 text-blue-800">Theory</span></td>
-                            <td class="p-4 text-xs">Primary source for GST. Violence as a maladaptive response to actual or anticipated negative stimuli.</td>
-                        </tr>
-
-                        <!-- STRUCTURAL ENTRIES -->
-                        <tr class="lit-row border-b" data-source="Structural">
-                            <td class="p-4">
-                                <span class="block leading-snug">Armstead, T. L., et al. (2020). Structural and social determinants of inequities in violence risk. <em>Journal of Community Psychology</em>, 48(4), 1141-1159.</span>
-                                <a href="https://doi.org/10.1002/jcop.22332" target="_blank" class="apa-link">View Full Article (JCP)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-indigo-100 text-indigo-800">Structural</span></td>
-                            <td class="p-4 text-xs">Examines how community-level indicators like economic inequality and segregation drive disparate violence risks.</td>
-                        </tr>
-                        <tr class="lit-row border-b" data-source="Structural">
-                            <td class="p-4">
-                                <span class="block leading-snug">Kubrin, C. E., & Weitzer, R. (2003). New directions in social disorganization theory. <em>Journal of Research in Crime and Delinquency</em>, 40(4), 374-402.</span>
-                                <a href="https://doi.org/10.1177/0022427803256238" target="_blank" class="apa-link">View Full Article (SAGE)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-indigo-100 text-indigo-800">Structural</span></td>
-                            <td class="p-4 text-xs">Defines Collective Efficacy: The trust and willingness to intervene that suppresses neighborhood violence.</td>
-                        </tr>
-                        <tr class="lit-row border-b" data-source="Structural">
-                            <td class="p-4">
-                                <span class="block leading-snug">Hillesund, S., & Østby, G. (2023). Horizontal inequalities and nonviolent conflict. <em>Journal of Economic Surveys</em>, 37(3), 883-909.</span>
-                                <a href="https://doi.org/10.1111/joes.12558" target="_blank" class="apa-link">View Full Article (Wiley)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-indigo-100 text-indigo-800">Structural</span></td>
-                            <td class="p-4 text-xs">Horizontal Inequalities (HI) between groups, especially political exclusion, are primary drivers of civil war.</td>
-                        </tr>
-
-                        <!-- BIO/ENVIRONMENTAL -->
-                        <tr class="lit-row border-b" data-source="Bio">
-                            <td class="p-4">
-                                <span class="block leading-snug">Chauhan, V., et al. (2025). Association of rising temperatures with increased violence worldwide: A systematic review. <em>Western Journal of Emergency Medicine</em>.</span>
-                                <a href="https://westjem.com/" target="_blank" class="apa-link">View Journal Site (WestJEM)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-orange-100 text-orange-800">Bio</span></td>
-                            <td class="p-4 text-xs">Confirms +1°C rise in temp = 1.64% increase in violent events; zero significant effect on property crimes.</td>
-                        </tr>
-                        <tr class="lit-row border-b" data-source="Bio">
-                            <td class="p-4">
-                                <span class="block leading-snug">Duke, A. A., et al. (2018). Alcohol, drugs, and violence: A meta-meta-analysis. <em>Psychology of Violence</em>, 8(2), 238–249.</span>
-                                <a href="https://doi.org/10.1037/vio0000106" target="_blank" class="apa-link">View Full Article (APA)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-orange-100 text-orange-800">Bio</span></td>
-                            <td class="p-4 text-xs">Large-scale meta-analysis: Substance misuse correlates with violence across clinical and non-clinical populations.</td>
-                        </tr>
-
-                        <!-- PSYCH/CLINICAL -->
-                        <tr class="lit-row border-b" data-source="Psych">
-                            <td class="p-4">
-                                <span class="block leading-snug">Malvaso, C. G., et al. (2022). The prevalence of adverse childhood experiences among justice-involved youth: A systematic review. <em>Trauma, Violence, & Abuse</em>, 23(4).</span>
-                                <a href="https://doi.org/10.1177/1524838020957989" target="_blank" class="apa-link">View Full Article (SAGE)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-purple-100 text-purple-800">Psych</span></td>
-                            <td class="p-4 text-xs">Synthesizes the 87% ACEs prevalence finding among justice-involved youth populations.</td>
-                        </tr>
-                        <tr class="lit-row border-b" data-source="Psych">
-                            <td class="p-4">
-                                <span class="block leading-snug">Whiting, D., et al. (2020). Violence and mental disorders. <em>The Lancet Psychiatry</em>, 7(1), 93-102.</span>
-                                <a href="https://doi.org/10.1016/S2215-0366(19)30383-5" target="_blank" class="apa-link">View Full Article (Lancet)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-purple-100 text-purple-800">Psych</span></td>
-                            <td class="p-4 text-xs">Clinical risk audit: Mental illness increases relative risk, but absolute violence rates remain low without substance misuse.</td>
-                        </tr>
-
-                        <!-- COMMUNICATIVE/HISTORICAL -->
-                        <tr class="lit-row border-b" data-source="Comm">
-                            <td class="p-4">
-                                <span class="block leading-snug">Milojevic, S., et al. (2023). Algorithmic polarization and the amplification of online aggression. <em>Nature Human Behaviour</em>, 7, 1061–1073.</span>
-                                <a href="https://doi.org/10.1038/s41562-023-01511-7" target="_blank" class="apa-link">View Full Article (Nature)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-green-100 text-green-800">Comm</span></td>
-                            <td class="p-4 text-xs">Empirical evidence for how algorithmic recommendation pushes users toward extreme aggressive content.</td>
-                        </tr>
-                        <tr class="lit-row border-b" data-source="Comm">
-                            <td class="p-4">
-                                <span class="block leading-snug">Udupa, S., et al. (2020). Hate speech, information disorder, and conflict. <em>SSRC Research Review</em>.</span>
-                                <a href="https://www.ssrc.org/publications/hate-speech-information-disorder-and-conflict/" target="_blank" class="apa-link">View Full Article (SSRC)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-green-100 text-green-800">Comm</span></td>
-                            <td class="p-4 text-xs">Analyzes online "fun" and memes as catalysts for dehumanizing discourse and collective aggression.</td>
-                        </tr>
-                        <tr class="lit-row border-b" data-source="Comm">
-                            <td class="p-4">
-                                <span class="block leading-snug">Kollmeyer, C. (2025). Colonial legacy and contemporary civil violence. <em>Social Forces</em>.</span>
-                                <a href="https://academic.oup.com/sf" target="_blank" class="apa-link">View Journal (Oxford/Social Forces)</a>
-                            </td>
-                            <td class="p-4"><span class="domain-tag bg-red-100 text-red-800">History</span></td>
-                            <td class="p-4 text-xs">Analyzes path-dependent imprints of colonial administrative styles on modern civil violence patterns.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Visual Analytics -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <section class="bg-white rounded-xl shadow-md p-6">
-                <h3 class="text-xl font-bold text-[#1e3a8a] mb-4">Master Risk Factors (Effect Sizes)</h3>
-                <div class="chart-container">
-                    <canvas id="multipliersChart"></canvas>
-                </div>
-            </section>
-            <section class="bg-white rounded-xl shadow-md p-6">
-                <h3 class="text-xl font-bold text-[#1e3a8a] mb-4">Internal State Dynamics (GAM)</h3>
-                <div class="chart-container">
-                    <canvas id="stateChart"></canvas>
-                </div>
-            </section>
+        <!-- Loading indicator -->
+        <div id="loading" class="loading">
+            <p class="text-xl text-gray-600">Loading citation database...</p>
         </div>
 
+        <!-- Main content (hidden until data loads) -->
+        <div id="main-content" style="display: none;">
+
+            <!-- Theoretical Framework Section -->
+            <section class="bg-white rounded-xl shadow-md p-6 border-b-4 border-blue-500">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <div class="text-center md:text-left">
+                        <h2 class="text-2xl font-bold text-[#1e3a8a]">Theoretical Mechanisms of Action</h2>
+                        <p class="text-sm text-gray-500 italic">"Violence as Viral Infection": Baseline vulnerability meets environmental catalysts</p>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-2 bg-slate-100 p-1 rounded-md">
+                        <button id="btn-gam" onclick="togglePerspective('gam')" class="px-4 py-2 text-xs font-bold rounded-md toggle-active">The GAM Loop</button>
+                        <button id="btn-gst" onclick="togglePerspective('gst')" class="px-4 py-2 text-xs font-bold rounded-md">Strain Theory</button>
+                        <button id="btn-history" onclick="togglePerspective('history')" class="px-4 py-2 text-xs font-bold rounded-md">Path Dependence</button>
+                        <button id="btn-hi" onclick="togglePerspective('hi')" class="px-4 py-2 text-xs font-bold rounded-md">Horizontal Inequality</button>
+                    </div>
+                </div>
+                <div id="perspective-content" class="bg-blue-50 p-6 rounded-lg border border-blue-100 min-h-[160px]"></div>
+            </section>
+
+            <!-- Master Literature Library -->
+            <section>
+                <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+                    <h3 class="text-2xl font-bold text-[#1e3a8a]">Master Evidence Library <span class="text-sm font-normal text-gray-500">(<span id="result-count">0</span> sources)</span></h3>
+                    <div class="flex flex-wrap gap-2">
+                        <input type="text" id="searchBox" placeholder="Search citations..." 
+                               class="p-2 rounded border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none w-64"
+                               oninput="handleSearch()">
+                        <select id="domainFilter" onchange="handleFilter()" class="p-2 rounded border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                            <option value="all">All Domains</option>
+                        </select>
+                        <select id="yearFilter" onchange="handleFilter()" class="p-2 rounded border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                            <option value="all">All Years</option>
+                        </select>
+                        <button onclick="handleExport('text')" class="export-btn bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-semibold">
+                            Export TXT
+                        </button>
+                        <button onclick="handleExport('bibtex')" class="export-btn bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-semibold">
+                            Export BibTeX
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-container bg-white">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-[#1e3a8a] text-white text-[10px] uppercase tracking-widest">
+                                <th class="p-4 border-b w-[45%]">Full APA 7th Edition Citation</th>
+                                <th class="p-4 border-b">Domain</th>
+                                <th class="p-4 border-b">Core Synthesis of Findings</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lit-body" class="text-sm">
+                            <!-- Citations will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Visual Analytics -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <section class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-xl font-bold text-[#1e3a8a] mb-4">Master Risk Factors (Effect Sizes)</h3>
+                    <p class="text-xs text-gray-500 mb-4">Comparative magnitudes of empirically-verified violence risk multipliers</p>
+                    <div class="chart-container">
+                        <canvas id="multipliersChart"></canvas>
+                    </div>
+                </section>
+                <section class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-xl font-bold text-[#1e3a8a] mb-4">Internal State Dynamics (GAM)</h3>
+                    <p class="text-xs text-gray-500 mb-4">Relative contribution of GAM components to aggressive decision-making</p>
+                    <div class="chart-container">
+                        <canvas id="stateChart"></canvas>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Statistics Dashboard -->
+            <section class="bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-xl font-bold text-[#1e3a8a] mb-4">Database Statistics</h3>
+                <div id="statistics" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <!-- Stats will be populated here -->
+                </div>
+            </section>
+
+        </div>
     </main>
 
     <footer class="bg-slate-800 text-slate-400 py-8 text-center text-sm mt-10">
-        <p>V-Project Master Dashboard &copy; 2026 | Cog-Neuro & Sociology Synthesis</p>
+        <p class="mb-2">V-Project Master Dashboard © 2026 | Multi-Domain Violence Research Synthesis</p>
+        <p class="text-xs">
+            Created by <a href="https://www.linkedin.com/in/jzstafura" target="_blank" class="text-blue-400 hover:text-blue-300">Joseph Z. Stafura, PhD</a>
+        </p>
     </footer>
 
+    <!-- Load the data-loader module -->
+    <script src="assets/js/data-loader.js"></script>
+    
     <script>
-        const contents = {
+        // Global citation manager instance
+        let citationManager;
+        let currentCitations = [];
+
+        // Theoretical perspectives content
+        const perspectives = {
             gam: {
                 title: "General Aggression Model (GAM)",
-                text: "Aggression is a goal-directed episodic loop. Inputs (Person/Situation) influence the <strong>Internal State</strong>: Cognition (hostile schemas), Affect (Anger as approach motivation), and Arousal (physio). This dictates the final decision path.",
+                text: "Aggression is a goal-directed episodic loop. Inputs (Person factors like trait anger, history; Situation factors like provocation, heat) influence the <strong>Internal State</strong>: Cognition (hostile attribution bias, aggressive scripts), Affect (anger as approach motivation), and Arousal (physiological activation). This internal state feeds into appraisal and decision processes that determine behavioral outcomes.",
                 color: "text-blue-800"
             },
             gst: {
                 title: "General Strain Theory (GST)",
-                text: "Violence stems from blocked pain-avoidance behavior. When individuals are trapped in negative stimuli (abusive homes, failed infrastructure), violence becomes a functional 'escape attempt' from psychological strain.",
+                text: "Violence stems from blocked pain-avoidance behavior. When individuals are trapped in negative stimuli (abusive homes, failed infrastructure, political exclusion) with no conventional escape routes, violence becomes a functional 'escape attempt' from intolerable psychological strain. The theory explains why structural conditions translate into individual aggression.",
                 color: "text-indigo-800"
             },
             history: {
                 title: "Historical Path Dependence",
-                text: "Legacy of colonial administrative styles creates permanent group boundaries. Research demonstrates how these historical imprints remain powerful predictors of ethnic civil violence decades later.",
+                text: "Legacy of colonial administrative styles creates permanent group boundaries and institutional patterns. Research demonstrates how these historical imprints remain powerful predictors of ethnic civil violence decades after independence, controlling for current economic and political conditions. History constrains present possibilities through institutional lock-in.",
                 color: "text-red-800"
             },
             hi: {
                 title: "Horizontal Inequality (HI)",
-                text: "Crucial distinction: Group-based <strong>Political Exclusion</strong> is the primary driver of civil conflict. Economic disparity matters, but the lack of executive power is the catalyst for tactical violent shifts.",
+                text: "Crucial distinction: Group-based <strong>Political Exclusion</strong> is the primary driver of civil conflict onset. While economic disparities between groups matter, systematic exclusion from executive power and political participation is the strongest catalyst for tactical shifts to organized violence. Economic inequality operates through political channels.",
                 color: "text-purple-800"
             }
         };
 
-        function togglePerspective(p) {
-            ['gam', 'gst', 'history', 'hi'].forEach(id => {
-                document.getElementById('btn-' + id)?.classList.remove('toggle-active');
+        // Initialize application
+        async function initializeApp() {
+            try {
+                citationManager = new CitationManager();
+                await citationManager.loadData('data/citations.json');
+                
+                // Hide loading, show content
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                
+                // Populate filters
+                populateFilters();
+                
+                // Initial render
+                currentCitations = citationManager.getAllCitations();
+                renderCitations(currentCitations);
+                
+                // Render charts
+                UIHelpers.renderCharts(citationManager.getRiskFactors());
+                
+                // Show statistics
+                displayStatistics();
+                
+                // Initialize perspective view
+                togglePerspective('gam');
+                
+            } catch (error) {
+                document.getElementById('loading').innerHTML = 
+                    '<p class="text-xl text-red-600">Error loading data. Please refresh the page.</p>';
+                console.error('Initialization error:', error);
+            }
+        }
+
+        function populateFilters() {
+            // Populate domain filter
+            const domainFilter = document.getElementById('domainFilter');
+            citationManager.getUniqueDomains().forEach(domain => {
+                const option = document.createElement('option');
+                option.value = domain;
+                const desc = citationManager.getDomainDescription(domain);
+                option.textContent = desc ? desc.name : domain;
+                domainFilter.appendChild(option);
             });
-            document.getElementById('btn-' + p)?.classList.add('toggle-active');
+
+            // Populate year filter
+            const yearFilter = document.getElementById('yearFilter');
+            const years = citationManager.getUniqueYears();
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearFilter.appendChild(option);
+            });
+        }
+
+        function renderCitations(citations) {
+            const tbody = document.getElementById('lit-body');
+            tbody.innerHTML = citations.map(citation => {
+                const domainDesc = citationManager.getDomainDescription(citation.domain);
+                const colorClass = getDomainColorClass(citation.domain);
+                
+                return `
+                    <tr class="lit-row border-b" data-id="${citation.id}">
+                        <td class="p-4">
+                            <span class="block leading-snug citation-text">${formatCitation(citation)}</span>
+                            <a href="${citation.url}" target="_blank" rel="noopener" class="apa-link">
+                                View Full Article
+                            </a>
+                        </td>
+                        <td class="p-4">
+                            <span class="domain-tag ${colorClass}">${citation.domain}</span>
+                        </td>
+                        <td class="p-4 text-xs synthesis-text">${citation.synthesis}</td>
+                    </tr>
+                `;
+            }).join('');
+            
+            UIHelpers.updateResultCount(citations.length);
+        }
+
+        function formatCitation(citation) {
+            let apa = `${citation.authors} (${citation.year}). ${citation.title}`;
+            
+            if (citation.sourceType === 'journal') {
+                apa += `. <em>${citation.source}</em>`;
+                if (citation.volume) apa += `, ${citation.volume}`;
+                if (citation.issue) apa += `(${citation.issue})`;
+                if (citation.pages) apa += `, ${citation.pages}`;
+            } else {
+                apa += `. <em>${citation.source}</em>`;
+            }
+            
+            return apa;
+        }
+
+        function getDomainColorClass(domain) {
+            const colorMap = {
+                'Theory': 'bg-blue-100 text-blue-800',
+                'Structural': 'bg-indigo-100 text-indigo-800',
+                'Bio': 'bg-orange-100 text-orange-800',
+                'Psych': 'bg-purple-100 text-purple-800',
+                'Comm': 'bg-green-100 text-green-800',
+                'History': 'bg-red-100 text-red-800'
+            };
+            return colorMap[domain] || 'bg-gray-100 text-gray-800';
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('searchBox').value;
+            if (query.trim() === '') {
+                currentCitations = citationManager.getAllCitations();
+            } else {
+                currentCitations = citationManager.searchCitations(query);
+            }
+            applyFilters();
+        }
+
+        function handleFilter() {
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const domainFilter = document.getElementById('domainFilter').value;
+            const yearFilter = document.getElementById('yearFilter').value;
+            
+            let filtered = [...currentCitations];
+            
+            if (domainFilter !== 'all') {
+                filtered = filtered.filter(c => c.domain === domainFilter);
+            }
+            
+            if (yearFilter !== 'all') {
+                filtered = filtered.filter(c => c.year === parseInt(yearFilter));
+            }
+            
+            renderCitations(filtered);
+        }
+
+        function handleExport(format) {
+            const visibleCitations = currentCitations; // Or get from filtered results
+            const date = new Date().toISOString().split('T')[0];
+            
+            if (format === 'text') {
+                const content = citationManager.exportToText(visibleCitations);
+                citationManager.downloadFile(content, `v-project-citations-${date}.txt`);
+            } else if (format === 'bibtex') {
+                const content = citationManager.exportToBibTeX(visibleCitations);
+                citationManager.downloadFile(content, `v-project-citations-${date}.bib`);
+            }
+        }
+
+        function togglePerspective(key) {
+            ['gam', 'gst', 'history', 'hi'].forEach(k => {
+                document.getElementById(`btn-${k}`)?.classList.remove('toggle-active');
+            });
+            document.getElementById(`btn-${key}`)?.classList.add('toggle-active');
+            
+            const perspective = perspectives[key];
             document.getElementById('perspective-content').innerHTML = `
-                <h4 class="font-bold text-lg ${contents[p].color} mb-2">${contents[p].title}</h4>
-                <p class="text-sm leading-relaxed text-slate-700">${contents[p].text}</p>
+                <h4 class="font-bold text-lg ${perspective.color} mb-2">${perspective.title}</h4>
+                <p class="text-sm leading-relaxed text-slate-700">${perspective.text}</p>
             `;
         }
 
-        function filterTable() {
-            const val = document.getElementById('dataFilter').value;
-            document.querySelectorAll('.lit-row').forEach(row => {
-                row.style.display = (val === 'all' || row.dataset.source === val) ? 'table-row' : 'none';
-            });
+        function displayStatistics() {
+            const stats = citationManager.getStatistics();
+            const statsDiv = document.getElementById('statistics');
+            
+            statsDiv.innerHTML = `
+                <div class="bg-blue-50 p-4 rounded">
+                    <p class="text-3xl font-bold text-blue-800">${stats.totalCitations}</p>
+                    <p class="text-sm text-gray-600">Total Citations</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded">
+                    <p class="text-3xl font-bold text-green-800">${stats.withEffectSizes}</p>
+                    <p class="text-sm text-gray-600">With Effect Sizes</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded">
+                    <p class="text-3xl font-bold text-purple-800">${stats.avgEvidenceQuality}</p>
+                    <p class="text-sm text-gray-600">Avg Quality (1-5)</p>
+                </div>
+                <div class="bg-orange-50 p-4 rounded">
+                    <p class="text-3xl font-bold text-orange-800">${stats.byDomain.length}</p>
+                    <p class="text-sm text-gray-600">Research Domains</p>
+                </div>
+            `;
         }
 
-        function renderCharts() {
-            new Chart(document.getElementById('multipliersChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['+1°C Heat', 'ACEs (Trauma)', 'Substance Misuse', 'Political Exclusion', 'Trait Anger'],
-                    datasets: [{
-                        label: 'Relative magnitude / % Increase',
-                        data: [1.64, 87, 72, 65, 45],
-                        backgroundColor: ['#f97316', '#3b82f6', '#8b5cf6', '#ef4444', '#10b981'],
-                        borderRadius: 5
-                    }]
-                },
-                options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-
-            new Chart(document.getElementById('stateChart'), {
-                type: 'radar',
-                data: {
-                    labels: ['Cognition', 'Affect', 'Arousal', 'Trait/History', 'Situation'],
-                    datasets: [{
-                        label: 'Internal Aggression Weighting',
-                        data: [80, 95, 70, 85, 90],
-                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                        borderColor: '#3b82f6',
-                        pointBackgroundColor: '#1e3a8a'
-                    }]
-                },
-                options: { maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 100 } } }
-            });
-        }
-
-        window.onload = () => {
-            togglePerspective('gam');
-            renderCharts();
-        };
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 </html>
-
