@@ -1,0 +1,71 @@
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node modules (if using build tools in future)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.local
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Python (if adding data processing scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# R (if adding statistical analysis)
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Data files that shouldn't be versioned
+data/raw/*.csv
+data/raw/*.xlsx
+data/processed/*.csv
+!data/citations.json
+
+# Documentation build
+docs/_build/
+site/
+
+# Testing
+coverage/
+.nyc_output/
