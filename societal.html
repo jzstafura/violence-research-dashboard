@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Societal Level | Violence Research Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0f1419;
+            --color-surface: #1a2332;
+            --color-surface-elevated: #232f42;
+            --color-border: #2d3a4f;
+            --color-text: #e8eaed;
+            --color-text-muted: #9aa0a6;
+            --color-text-dim: #5f6368;
+            
+            /* Ecological Level Colors */
+            --color-societal: #ef4444;
+            --color-societal-bg: rgba(239, 68, 68, 0.12);
+            --color-community: #f59e0b;
+            --color-community-bg: rgba(245, 158, 11, 0.12);
+            --color-relational: #10b981;
+            --color-relational-bg: rgba(16, 185, 129, 0.12);
+            --color-individual: #3b82f6;
+            --color-individual-bg: rgba(59, 130, 246, 0.12);
+            --color-cross-level: #8b5cf6;
+            --color-cross-level-bg: rgba(139, 92, 246, 0.12);
+            
+            /* Current level accent */
+            --color-accent: var(--color-societal);
+            --color-accent-bg: var(--color-societal-bg);
+            
+            --font-serif: 'Source Serif 4', Georgia, serif;
+            --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+            
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-sans);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 20, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+            padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-brand {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: var(--color-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--color-societal), var(--color-individual));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--color-text);
+            background: var(--color-surface);
+        }
+
+        .nav-link.active {
+            color: var(--color-text);
+            background: var(--color-surface-elevated);
+        }
+
+        .nav-link-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 60px 24px 40px;
+            border-bottom: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--color-accent);
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(ellipse, var(--color-accent-bg) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .page-header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin-bottom: 16px;
+        }
+
+        .breadcrumb a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--color-text);
+        }
+
+        .breadcrumb-sep {
+            color: var(--color-text-dim);
+        }
+
+        .page-header h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 700;
+            margin: 0 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .page-header-desc {
+            font-size: 1.125rem;
+            color: var(--color-text-muted);
+            max-width: 700px;
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        /* Stats Row */
+        .level-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .level-stat {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .level-stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--color-accent);
+        }
+
+        .level-stat-label {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        /* Theme Sections */
+        .theme-section {
+            margin-bottom: 64px;
+        }
+
+        .theme-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .theme-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .theme-header h2 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 4px;
+        }
+
+        .theme-header p {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            margin: 0;
+        }
+
+        /* Study Cards */
+        .studies-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .study-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            transition: all 0.2s;
+        }
+
+        .study-card:hover {
+            border-color: var(--color-text-dim);
+        }
+
+        .study-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .study-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: var(--color-surface-elevated);
+            border-radius: var(--radius-sm);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            white-space: nowrap;
+        }
+
+        .study-type-badge.meta-analysis {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .study-type-badge.theoretical {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+        }
+
+        .study-type-badge.empirical {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .study-type-badge.review {
+            background: rgba(139, 92, 246, 0.15);
+            color: #8b5cf6;
+        }
+
+        .study-title {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0 0 12px;
+            line-height: 1.4;
+        }
+
+        .study-synthesis {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin: 0 0 20px;
+        }
+
+        .study-effect {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+        }
+
+        .study-effect-value {
+            font-family: var(--font-mono);
+            font-size: 1.375rem;
+            font-weight: 500;
+            color: var(--color-accent);
+        }
+
+        .study-effect-label {
+            font-size: 0.8125rem;
+            color: var(--color-text-dim);
+        }
+
+        .study-citation {
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .study-citation-text {
+            font-size: 0.875rem;
+            color: var(--color-text-dim);
+            margin: 0 0 8px;
+            line-height: 1.5;
+        }
+
+        .study-citation-text em {
+            font-style: italic;
+        }
+
+        .study-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .study-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .study-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Expandable Details */
+        .study-details {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border);
+            display: none;
+        }
+
+        .study-details.expanded {
+            display: block;
+        }
+
+        .study-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .study-detail-item {
+            font-size: 0.8125rem;
+        }
+
+        .study-detail-label {
+            color: var(--color-text-dim);
+            margin-bottom: 2px;
+        }
+
+        .study-detail-value {
+            color: var(--color-text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .expand-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .expand-btn:hover {
+            background: var(--color-surface-elevated);
+            border-color: var(--color-text-dim);
+        }
+
+        /* Related Levels */
+        .related-section {
+            margin-top: 64px;
+            padding-top: 48px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .related-header {
+            margin-bottom: 24px;
+        }
+
+        .related-header h3 {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 8px;
+        }
+
+        .related-header p {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            margin: 0;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .related-card {
+            display: flex;
+            gap: 16px;
+            padding: 20px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+        }
+
+        .related-card:hover {
+            background: var(--color-surface-elevated);
+            border-color: var(--color-text-dim);
+        }
+
+        .related-color {
+            width: 4px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .related-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 6px;
+        }
+
+        .related-content p {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 40px 24px;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-text);
+        }
+
+        .footer-credit {
+            font-size: 0.8125rem;
+            color: var(--color-text-dim);
+        }
+
+        .footer-credit a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .level-stats {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            
+            .study-card-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-brand-icon">📊</span>
+                Violence Research Dashboard
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Overview</a>
+                <a href="societal.html" class="nav-link active">
+                    <span class="nav-link-dot" style="background: var(--color-societal);"></span>Societal
+                </a>
+                <a href="community.html" class="nav-link">
+                    <span class="nav-link-dot" style="background: var(--color-community);"></span>Community
+                </a>
+                <a href="relational.html" class="nav-link">
+                    <span class="nav-link-dot" style="background: var(--color-relational);"></span>Relational
+                </a>
+                <a href="individual.html" class="nav-link">
+                    <span class="nav-link-dot" style="background: var(--color-individual);"></span>Individual
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-inner">
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="breadcrumb-sep">→</span>
+                <span>Societal Level</span>
+            </nav>
+            <h1>
+                Societal Level
+                <span class="level-badge">Outermost Ring</span>
+            </h1>
+            <p class="page-header-desc">
+                Macro-level factors that create the context for violence: colonial legacies, structural inequality, political exclusion, and institutional patterns that persist across generations.
+            </p>
+            <div class="level-stats">
+                <div class="level-stat">
+                    <span class="level-stat-value">8</span>
+                    <span class="level-stat-label">studies</span>
+                </div>
+                <div class="level-stat">
+                    <span class="level-stat-value">3</span>
+                    <span class="level-stat-label">constructs</span>
+                </div>
+                <div class="level-stat">
+                    <span class="level-stat-value">2</span>
+                    <span class="level-stat-label">meta-analyses</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Theme: Colonial Legacies -->
+        <section class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🏛️</div>
+                <div>
+                    <h2>Colonial Legacies & Path Dependence</h2>
+                    <p>How historical administrative patterns create durable structures for modern violence</p>
+                </div>
+            </div>
+
+            <div class="studies-grid">
+                <article class="study-card">
+                    <div class="study-card-header">
+                        <div>
+                            <span class="study-type-badge empirical">Empirical</span>
+                        </div>
+                    </div>
+                    <h3 class="study-title">Colonial Legacy and Contemporary Civil Violence</h3>
+                    <p class="study-synthesis">
+                        Analyzes path-dependent imprints of colonial administrative styles on modern civil violence patterns. Demonstrates how historical institutions create durable conflict structures that persist decades after independence, controlling for current economic and political conditions.
+                    </p>
+                    <div class="study-citation">
+                        <p class="study-citation-text">
+                            Kollmeyer, C. (2025). Colonial legacy and contemporary civil violence: A cross-national analysis. <em>Social Forces, 104</em>(2), 640–661.
+                        </p>
+                        <div class="study-links">
+                            <a href="https://doi.org/10.1093/sf/soaf036" target="_blank" class="study-link">
+                                DOI: 10.1093/sf/soaf036 →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="study-details" id="details-kollmeyer">
+                        <div class="study-details-grid">
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Methodology</div>
+                                <div class="study-detail-value">Cross-national quantitative</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Population</div>
+                                <div class="study-detail-value">Post-colonial nations</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Evidence Quality</div>
+                                <div class="study-detail-value">4/5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleDetails('details-kollmeyer', this)">
+                        Show details ↓
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Theme: Structural Inequality -->
+        <section class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">⚖️</div>
+                <div>
+                    <h2>Structural Inequality & Political Exclusion</h2>
+                    <p>Group-based inequalities and exclusion from power as drivers of organized violence</p>
+                </div>
+            </div>
+
+            <div class="studies-grid">
+                <article class="study-card">
+                    <div class="study-card-header">
+                        <div>
+                            <span class="study-type-badge review">Comprehensive Review</span>
+                        </div>
+                    </div>
+                    <h3 class="study-title">Horizontal Inequalities and Nonviolent Conflict</h3>
+                    <div class="study-effect">
+                        <span class="study-effect-value">65%</span>
+                        <span class="study-effect-label">relative importance of political exclusion</span>
+                    </div>
+                    <p class="study-synthesis">
+                        Crucial distinction: Group-based <strong>political exclusion</strong> is the primary driver of civil conflict onset. While economic disparities between groups matter, systematic exclusion from executive power and political participation is the strongest catalyst for tactical shifts to organized violence.
+                    </p>
+                    <div class="study-citation">
+                        <p class="study-citation-text">
+                            Hillesund, S., & Østby, G. (2023). Horizontal inequalities and nonviolent conflict: A comprehensive review. <em>Journal of Economic Surveys, 37</em>(3), 883–909.
+                        </p>
+                        <div class="study-links">
+                            <a href="https://doi.org/10.1111/joes.12558" target="_blank" class="study-link">
+                                DOI: 10.1111/joes.12558 →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="study-details" id="details-hillesund">
+                        <div class="study-details-grid">
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Methodology</div>
+                                <div class="study-detail-value">Systematic review</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Population</div>
+                                <div class="study-detail-value">Cross-national</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Evidence Quality</div>
+                                <div class="study-detail-value">5/5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleDetails('details-hillesund', this)">
+                        Show details ↓
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Theme: Theoretical Frameworks -->
+        <section class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">📐</div>
+                <div>
+                    <h2>Theoretical Frameworks</h2>
+                    <p>Foundational theories explaining how societal strain translates to violence</p>
+                </div>
+            </div>
+
+            <div class="studies-grid">
+                <article class="study-card">
+                    <div class="study-card-header">
+                        <div>
+                            <span class="study-type-badge theoretical">Theoretical</span>
+                        </div>
+                    </div>
+                    <h3 class="study-title">Foundation for a General Strain Theory of Crime and Delinquency</h3>
+                    <p class="study-synthesis">
+                        Violence emerges as a maladaptive response to actual or anticipated negative stimuli when conventional coping mechanisms are blocked. GST explains why structural conditions translate into individual aggression—when people are trapped in aversive situations with no legitimate escape, violence becomes a functional "escape attempt" from intolerable psychological strain.
+                    </p>
+                    <div class="study-citation">
+                        <p class="study-citation-text">
+                            Agnew, R. (1992). Foundation for a general strain theory of crime and delinquency. <em>Criminology, 30</em>(1), 47–88.
+                        </p>
+                        <div class="study-links">
+                            <a href="https://doi.org/10.1111/j.1745-9125.1992.tb01093.x" target="_blank" class="study-link">
+                                DOI: 10.1111/j.1745-9125.1992.tb01093.x →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="study-details" id="details-agnew">
+                        <div class="study-details-grid">
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Study Type</div>
+                                <div class="study-detail-value">Theoretical framework</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Key Constructs</div>
+                                <div class="study-detail-value">Strain, coping, negative stimuli</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Evidence Quality</div>
+                                <div class="study-detail-value">5/5 (foundational)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleDetails('details-agnew', this)">
+                        Show details ↓
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Related Levels -->
+        <section class="related-section">
+            <div class="related-header">
+                <h3>Cross-Level Connections</h3>
+                <p>How societal factors interact with other ecological levels</p>
+            </div>
+            <div class="related-grid">
+                <a href="community.html" class="related-card">
+                    <div class="related-color" style="background: var(--color-community);"></div>
+                    <div class="related-content">
+                        <h4>→ Community Level</h4>
+                        <p>Societal inequality manifests as neighborhood-level social disorganization and differential collective efficacy.</p>
+                    </div>
+                </a>
+                <a href="individual.html" class="related-card">
+                    <div class="related-color" style="background: var(--color-individual);"></div>
+                    <div class="related-content">
+                        <h4>→ Individual Level</h4>
+                        <p>Structural strain creates individual-level negative affect and blocked coping that trigger the GAM aggression cycle.</p>
+                    </div>
+                </a>
+                <a href="relational.html" class="related-card">
+                    <div class="related-color" style="background: var(--color-relational);"></div>
+                    <div class="related-content">
+                        <h4>→ Relational Level</h4>
+                        <p>Political exclusion disrupts family systems and community bonds, contributing to intergenerational trauma patterns.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://github.com/jzstafura/violence-research-dashboard" target="_blank">GitHub Repository</a>
+                <a href="https://github.com/jzstafura/violence-evidence-hub" target="_blank">Violence Evidence Hub</a>
+                <a href="https://www.linkedin.com/in/jzstafura" target="_blank">Contact</a>
+            </div>
+            <p class="footer-credit">
+                V-Project © 2026 | Created by <a href="https://www.linkedin.com/in/jzstafura" target="_blank">Joseph Z. Stafura, PhD</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleDetails(detailsId, button) {
+            const details = document.getElementById(detailsId);
+            const isExpanded = details.classList.contains('expanded');
+            
+            if (isExpanded) {
+                details.classList.remove('expanded');
+                button.innerHTML = 'Show details ↓';
+            } else {
+                details.classList.add('expanded');
+                button.innerHTML = 'Hide details ↑';
+            }
+        }
+    </script>
+</body>
+</html>
