@@ -1,8 +1,8 @@
-# Violence Research Dashboard (V-Project)
+# Violence Research Dashboard
 
 ## Overview
 
-The V-Project is an interactive research dashboard synthesizing multi-domain evidence on the mechanisms, risk factors, and structural determinants of violence. This project integrates findings from cognitive neuroscience, social psychology, criminology, structural sociology, environmental science, and digital communication research to provide a comprehensive, empirically-grounded understanding of violence as a complex biopsychosocial phenomenon.
+The Violence Project Dashboard is an interactive research dashboard synthesizing multi-domain evidence on the mechanisms, risk factors, and structural determinants of violence. This project integrates findings from cognitive neuroscience, social psychology, criminology, structural sociology, environmental science, and digital communication research to provide a comprehensive, empirically-grounded understanding of violence as a complex biopsychosocial phenomenon.
 
 **Live Dashboard**: [View the interactive dashboard](https://jzstafura.github.io/violence-research-dashboard/)
 
