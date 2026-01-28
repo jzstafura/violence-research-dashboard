@@ -1,1 +1,1035 @@
-#in progress
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Level | Violence Research Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0f1419;
+            --color-surface: #1a2332;
+            --color-surface-elevated: #232f42;
+            --color-border: #2d3a4f;
+            --color-text: #e8eaed;
+            --color-text-muted: #9aa0a6;
+            --color-text-dim: #5f6368;
+            
+            /* Ecological Level Colors */
+            --color-societal: #ef4444;
+            --color-societal-bg: rgba(239, 68, 68, 0.12);
+            --color-community: #f59e0b;
+            --color-community-bg: rgba(245, 158, 11, 0.12);
+            --color-relational: #10b981;
+            --color-relational-bg: rgba(16, 185, 129, 0.12);
+            --color-individual: #3b82f6;
+            --color-individual-bg: rgba(59, 130, 246, 0.12);
+            --color-cross-level: #8b5cf6;
+            --color-cross-level-bg: rgba(139, 92, 246, 0.12);
+            
+            /* Current level accent */
+            --color-accent: var(--color-individual);
+            --color-accent-bg: var(--color-individual-bg);
+            
+            --font-serif: 'Source Serif 4', Georgia, serif;
+            --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+            
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-sans);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 20, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+            padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-brand {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: var(--color-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--color-societal), var(--color-individual));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--color-text);
+            background: var(--color-surface);
+        }
+
+        .nav-link.active {
+            color: var(--color-text);
+            background: var(--color-surface-elevated);
+        }
+
+        .nav-link-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 60px 24px 40px;
+            border-bottom: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--color-accent);
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(ellipse, var(--color-accent-bg) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .page-header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin-bottom: 16px;
+        }
+
+        .breadcrumb a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--color-text);
+        }
+
+        .breadcrumb-sep {
+            color: var(--color-text-dim);
+        }
+
+        .page-header h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 700;
+            margin: 0 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .page-header-desc {
+            font-size: 1.125rem;
+            color: var(--color-text-muted);
+            max-width: 700px;
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        /* Stats Row */
+        .level-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .level-stat {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .level-stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--color-accent);
+        }
+
+        .level-stat-label {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        /* Theme Sections */
+        .theme-section {
+            margin-bottom: 64px;
+        }
+
+        .theme-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .theme-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .theme-header h2 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 4px;
+        }
+
+        .theme-header p {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            margin: 0;
+        }
+
+        /* Study Cards */
+        .studies-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .study-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            transition: all 0.2s;
+        }
+
+        .study-card:hover {
+            border-color: var(--color-text-dim);
+        }
+
+        .study-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .study-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: var(--color-surface-elevated);
+            border-radius: var(--radius-sm);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            white-space: nowrap;
+        }
+
+        .study-type-badge.meta-analysis {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .study-type-badge.theoretical {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+        }
+
+        .study-type-badge.empirical {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .study-type-badge.review {
+            background: rgba(139, 92, 246, 0.15);
+            color: #8b5cf6;
+        }
+
+        .study-type-badge.meta-meta {
+            background: rgba(16, 185, 129, 0.25);
+            color: #10b981;
+        }
+
+        .study-title {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0 0 12px;
+            line-height: 1.4;
+        }
+
+        .study-synthesis {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin: 0 0 20px;
+        }
+
+        .study-effect {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+        }
+
+        .study-effect-value {
+            font-family: var(--font-mono);
+            font-size: 1.375rem;
+            font-weight: 500;
+            color: var(--color-accent);
+        }
+
+        .study-effect-label {
+            font-size: 0.8125rem;
+            color: var(--color-text-dim);
+        }
+
+        .study-citation {
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .study-citation-text {
+            font-size: 0.875rem;
+            color: var(--color-text-dim);
+            margin: 0 0 8px;
+            line-height: 1.5;
+        }
+
+        .study-citation-text em {
+            font-style: italic;
+        }
+
+        .study-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .study-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .study-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Expandable Details */
+        .study-details {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border);
+            display: none;
+        }
+
+        .study-details.expanded {
+            display: block;
+        }
+
+        .study-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .study-detail-item {
+            font-size: 0.8125rem;
+        }
+
+        .study-detail-label {
+            color: var(--color-text-dim);
+            margin-bottom: 2px;
+        }
+
+        .study-detail-value {
+            color: var(--color-text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .expand-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .expand-btn:hover {
+            background: var(--color-surface-elevated);
+            border-color: var(--color-text-dim);
+        }
+
+        /* Related Levels */
+        .related-section {
+            margin-top: 64px;
+            padding-top: 48px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .related-header {
+            margin-bottom: 24px;
+        }
+
+        .related-header h3 {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 8px;
+        }
+
+        .related-header p {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            margin: 0;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .related-card {
+            display: flex;
+            gap: 16px;
+            padding: 20px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+        }
+
+        .related-card:hover {
+            background: var(--color-surface-elevated);
+            border-color: var(--color-text-dim);
+        }
+
+        .related-color {
+            width: 4px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .related-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 6px;
+        }
+
+        .related-content p {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 40px 24px;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-text);
+        }
+
+        .footer-credit {
+            font-size: 0.8125rem;
+            color: var(--color-text-dim);
+        }
+
+        .footer-credit a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .level-stats {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            
+            .study-card-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-brand-icon">📊</span>
+                Violence Research Dashboard
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Overview</a>
+                <a href="societal.html" class="nav-link">
+                    <span class="nav-link-dot" style="background: var(--color-societal);"></span>Societal
+                </a>
+                <a href="community.html" class="nav-link">
+                    <span class="nav-link-dot" style="background: var(--color-community);"></span>Community
+                </a>
+                <a href="relational.html" class="nav-link">
+                    <span class="nav-link-dot" style="background: var(--color-relational);"></span>Relational
+                </a>
+                <a href="individual.html" class="nav-link active">
+                    <span class="nav-link-dot" style="background: var(--color-individual);"></span>Individual
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-inner">
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="breadcrumb-sep">→</span>
+                <span>Individual Level</span>
+            </nav>
+            <h1>
+                Individual Level
+                <span class="level-badge">Innermost Ring</span>
+            </h1>
+            <p class="page-header-desc">
+                Person-level factors that influence violence risk: developmental trauma (ACEs), neuropsychiatric conditions, substance use, cognitive processes, and media exposure effects. The General Aggression Model integrates these pathways.
+            </p>
+            <div class="level-stats">
+                <div class="level-stat">
+                    <span class="level-stat-value">18</span>
+                    <span class="level-stat-label">studies</span>
+                </div>
+                <div class="level-stat">
+                    <span class="level-stat-value">5</span>
+                    <span class="level-stat-label">constructs</span>
+                </div>
+                <div class="level-stat">
+                    <span class="level-stat-value">6</span>
+                    <span class="level-stat-label">meta-analyses</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Theme: Theoretical Framework -->
+        <section class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🧠</div>
+                <div>
+                    <h2>General Aggression Model (GAM)</h2>
+                    <p>The integrative theoretical framework for understanding individual-level violence</p>
+                </div>
+            </div>
+
+            <div class="studies-grid">
+                <article class="study-card">
+                    <div class="study-card-header">
+                        <div>
+                            <span class="study-type-badge theoretical">Theoretical Framework</span>
+                        </div>
+                    </div>
+                    <h3 class="study-title">General Aggression Model</h3>
+                    <p class="study-synthesis">
+                        Defines the cognitive-neuro loop that processes violent behavior: <strong>Person/Situation inputs → Internal state (Affect/Arousal/Cognition) → Appraisal → Behavioral Outcomes</strong>. The GAM integrates biological, personality, social learning, and cognitive factors into a unified framework. Environmental triggers from the community level (heat, crowding) enter the model as situational inputs that elevate arousal; developmental experiences (ACEs) shape person factors through chronic accessibility of aggressive scripts and hostile attribution biases.
+                    </p>
+                    <div class="study-citation">
+                        <p class="study-citation-text">
+                            Allen, J. J., & Anderson, C. A. (2017). General Aggression Model. In P. Rössler, C. A. Hoffner, & L. van Zoonen (Eds.), <em>The International Encyclopedia of Media Effects</em>. Wiley.
+                        </p>
+                        <div class="study-links">
+                            <a href="https://doi.org/10.1002/9781118783764.wbieme0078" target="_blank" class="study-link">
+                                DOI: 10.1002/9781118783764.wbieme0078 →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="study-details" id="details-allen">
+                        <div class="study-details-grid">
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Study Type</div>
+                                <div class="study-detail-value">Theoretical framework</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Key Constructs</div>
+                                <div class="study-detail-value">Affect, arousal, cognition, appraisal</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Evidence Quality</div>
+                                <div class="study-detail-value">5/5 (foundational)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleDetails('details-allen', this)">
+                        Show details ↓
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Theme: Developmental/ACEs -->
+        <section class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">👶</div>
+                <div>
+                    <h2>Adverse Childhood Experiences (ACEs)</h2>
+                    <p>Developmental trauma as the primary pathway to violence in youth populations</p>
+                </div>
+            </div>
+
+            <div class="studies-grid">
+                <article class="study-card">
+                    <div class="study-card-header">
+                        <div>
+                            <span class="study-type-badge meta-analysis">Meta-Analysis</span>
+                        </div>
+                    </div>
+                    <h3 class="study-title">Associations Between Adverse Childhood Experiences and Trauma Among Young People Who Offend</h3>
+                    <div class="study-effect">
+                        <span class="study-effect-value">87%</span>
+                        <span class="study-effect-label">ACE prevalence in justice-involved youth</span>
+                    </div>
+                    <p class="study-synthesis">
+                        Meta-analysis demonstrates developmental trauma as the primary pathway to violence in youth populations. The near-universal prevalence of ACEs among justice-involved youth (87%) compared to general population estimates (~60%) underscores that violent behavior often represents a downstream consequence of childhood adversity rather than an independent trait. Polyvictimization (exposure to multiple ACE types) shows particularly strong associations with violent outcomes.
+                    </p>
+                    <div class="study-citation">
+                        <p class="study-citation-text">
+                            Malvaso, C. G., Delfabbro, P., & Day, A. (2022). Associations between adverse childhood experiences and trauma among young people who offend: A systematic review and meta-analysis. <em>Trauma, Violence, & Abuse, 23</em>(5), 1677–1694.
+                        </p>
+                        <div class="study-links">
+                            <a href="https://doi.org/10.1177/15248380211013132" target="_blank" class="study-link">
+                                DOI: 10.1177/15248380211013132 →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="study-details" id="details-malvaso">
+                        <div class="study-details-grid">
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Methodology</div>
+                                <div class="study-detail-value">Systematic review + meta-analysis</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Population</div>
+                                <div class="study-detail-value">Justice-involved youth</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Evidence Quality</div>
+                                <div class="study-detail-value">5/5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleDetails('details-malvaso', this)">
+                        Show details ↓
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Theme: Neuropsychiatric Factors -->
+        <section class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🩺</div>
+                <div>
+                    <h2>Neuropsychiatric Risk Factors</h2>
+                    <p>Mental health conditions and their relationship to violence risk</p>
+                </div>
+            </div>
+
+            <div class="studies-grid">
+                <article class="study-card">
+                    <div class="study-card-header">
+                        <div>
+                            <span class="study-type-badge meta-analysis">Meta-Analysis</span>
+                        </div>
+                    </div>
+                    <h3 class="study-title">Risk Factors for Violence in Psychosis: Systematic Review and Meta-Regression Analysis</h3>
+                    <p class="study-synthesis">
+                        Critical distinction: Mental illness increases <strong>relative risk</strong> of violence but <strong>absolute rates remain low</strong>. The public perception of mental illness as a primary driver of violence is not supported by the evidence. However, <strong>co-occurring substance misuse dramatically increases absolute risk</strong>—the combination of psychosis and substance use represents a true high-risk profile. Other key risk factors include prior violence history, non-adherence to treatment, and acute symptom exacerbation (particularly command hallucinations and persecutory delusions).
+                    </p>
+                    <div class="study-citation">
+                        <p class="study-citation-text">
+                            Witt, K., van Dorn, R., & Fazel, S. (2013). Risk factors for violence in psychosis: Systematic review and meta-regression analysis of 110 studies. <em>PLoS ONE, 8</em>(2), e55942.
+                        </p>
+                        <div class="study-links">
+                            <a href="https://doi.org/10.1371/journal.pone.0055942" target="_blank" class="study-link">
+                                DOI: 10.1371/journal.pone.0055942 →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="study-details" id="details-witt">
+                        <div class="study-details-grid">
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Methodology</div>
+                                <div class="study-detail-value">Systematic review + meta-regression</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Studies Included</div>
+                                <div class="study-detail-value">110 studies</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Evidence Quality</div>
+                                <div class="study-detail-value">5/5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleDetails('details-witt', this)">
+                        Show details ↓
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Theme: Substance Use -->
+        <section class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🍺</div>
+                <div>
+                    <h2>Substance Use & Violence</h2>
+                    <p>Pharmacological, expectancy, and situational pathways linking substances to aggression</p>
+                </div>
+            </div>
+
+            <div class="studies-grid">
+                <article class="study-card">
+                    <div class="study-card-header">
+                        <div>
+                            <span class="study-type-badge meta-meta">Meta-Meta-Analysis</span>
+                        </div>
+                    </div>
+                    <h3 class="study-title">Alcohol, Drugs, and Violence: A Meta-Meta-Analysis</h3>
+                    <div class="study-effect">
+                        <span class="study-effect-value">72%</span>
+                        <span class="study-effect-label">correlation between substance misuse and violence</span>
+                    </div>
+                    <p class="study-synthesis">
+                        Meta-meta-analysis synthesizing decades of research confirms substance misuse correlates with violence, with <strong>strongest effects for acute alcohol intoxication</strong>. Mechanisms include: (1) pharmacological disinhibition of prefrontal control, (2) alcohol myopia narrowing attention to provocative cues, (3) expectancy effects where beliefs about alcohol's effects on aggression become self-fulfilling, and (4) situational factors (bars, late nights) that increase conflict opportunity. Importantly, chronic alcohol use shows weaker associations than acute intoxication.
+                    </p>
+                    <div class="study-citation">
+                        <p class="study-citation-text">
+                            Duke, A. A., et al. (2018). Alcohol, drugs, and violence: A meta-meta-analysis. <em>Psychology of Violence, 8</em>(2), 238–249.
+                        </p>
+                        <div class="study-links">
+                            <a href="https://doi.org/10.1037/vio0000106" target="_blank" class="study-link">
+                                DOI: 10.1037/vio0000106 →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="study-details" id="details-duke">
+                        <div class="study-details-grid">
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Methodology</div>
+                                <div class="study-detail-value">Meta-meta-analysis</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Effect Size Type</div>
+                                <div class="study-detail-value">Correlation %</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Evidence Quality</div>
+                                <div class="study-detail-value">5/5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleDetails('details-duke', this)">
+                        Show details ↓
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Theme: Media Effects -->
+        <section class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">📺</div>
+                <div>
+                    <h2>Media Violence Effects</h2>
+                    <p>How media exposure shapes aggressive cognitions, affect, and behavior</p>
+                </div>
+            </div>
+
+            <div class="studies-grid">
+                <article class="study-card">
+                    <div class="study-card-header">
+                        <div>
+                            <span class="study-type-badge meta-analysis">Meta-Analysis</span>
+                        </div>
+                    </div>
+                    <h3 class="study-title">The Effect of Media Violence on Aggression: A Meta-Analysis and Test of Replicability</h3>
+                    <p class="study-synthesis">
+                        Meta-analysis of publications from 2015–2022 confirms media violence exposure effects on aggression, with tests of replicability across studies. Effects operate through GAM pathways: violent media primes aggressive cognitions, increases hostile affect, elevates physiological arousal, and—through repeated exposure—creates chronically accessible aggressive scripts. Effect sizes are modest but consistent, and stronger for aggressive cognition/affect than overt violent behavior. The research addresses earlier replicability concerns by demonstrating consistent effects across methodologies.
+                    </p>
+                    <div class="study-citation">
+                        <p class="study-citation-text">
+                            Kim, E. L. (2024). The effect of media violence on aggression: A meta-analysis and test of replicability. <em>Doctoral dissertation</em>, Iowa State University.
+                        </p>
+                        <div class="study-links">
+                            <a href="https://dr.lib.iastate.edu/entities/publication/8a3cc2fb-0df1-4089-b9c8-c316cbcbc89e" target="_blank" class="study-link">
+                                View Dissertation →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="study-details" id="details-kim">
+                        <div class="study-details-grid">
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Methodology</div>
+                                <div class="study-detail-value">Meta-analysis + replicability test</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Time Period</div>
+                                <div class="study-detail-value">2015–2022 publications</div>
+                            </div>
+                            <div class="study-detail-item">
+                                <div class="study-detail-label">Evidence Quality</div>
+                                <div class="study-detail-value">4/5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleDetails('details-kim', this)">
+                        Show details ↓
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Integration Box -->
+        <section class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🔄</div>
+                <div>
+                    <h2>Integrating Individual-Level Pathways</h2>
+                    <p>How risk factors combine within the GAM framework</p>
+                </div>
+            </div>
+
+            <div class="studies-grid">
+                <article class="study-card" style="border-left: 4px solid var(--color-accent);">
+                    <h3 class="study-title">The Converging Pathways Model</h3>
+                    <p class="study-synthesis">
+                        Individual-level risk factors don't operate in isolation—they converge through the GAM processing loop. Developmental trauma (ACEs) shapes <strong>person factors</strong> by creating hostile attribution biases and chronically accessible aggressive scripts. Neuropsychiatric conditions affect <strong>appraisal processes</strong> through impaired cognitive control and reality testing. Substance use alters the <strong>internal state</strong> directly by increasing arousal and disinhibiting control. Media violence exposure primes aggressive <strong>cognitions</strong> and normalizes violent solutions. When multiple pathways converge—as when someone with developmental trauma and hostile attribution biases consumes alcohol while experiencing environmental heat stress—the probability of aggressive outcomes increases multiplicatively rather than additively. This explains why polyvictimization and comorbidity show such strong associations with violence: they represent multiple simultaneous pathway activations.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Related Levels -->
+        <section class="related-section">
+            <div class="related-header">
+                <h3>Cross-Level Connections</h3>
+                <p>How individual factors interact with other ecological levels</p>
+            </div>
+            <div class="related-grid">
+                <a href="relational.html" class="related-card">
+                    <div class="related-color" style="background: var(--color-relational);"></div>
+                    <div class="related-content">
+                        <h4>← Relational Level</h4>
+                        <p>Family and peer contexts transmit ACEs across generations and model aggressive scripts that become part of individual cognitive repertoires.</p>
+                    </div>
+                </a>
+                <a href="community.html" class="related-card">
+                    <div class="related-color" style="background: var(--color-community);"></div>
+                    <div class="related-content">
+                        <h4>← Community Level</h4>
+                        <p>Environmental stressors (heat, crowding, noise) enter the GAM as situational inputs that elevate arousal and narrow cognitive processing.</p>
+                    </div>
+                </a>
+                <a href="societal.html" class="related-card">
+                    <div class="related-color" style="background: var(--color-societal);"></div>
+                    <div class="related-content">
+                        <h4>← Societal Level</h4>
+                        <p>Structural strain creates chronic negative affect and blocked coping that trigger aggressive appraisal cycles within the GAM framework.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://github.com/jzstafura/violence-research-dashboard" target="_blank">GitHub Repository</a>
+                <a href="https://github.com/jzstafura/violence-evidence-hub" target="_blank">Violence Evidence Hub</a>
+                <a href="https://www.linkedin.com/in/jzstafura" target="_blank">Contact</a>
+            </div>
+            <p class="footer-credit">
+                V-Project © 2026 | Created by <a href="https://www.linkedin.com/in/jzstafura" target="_blank">Joseph Z. Stafura, PhD</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleDetails(detailsId, button) {
+            const details = document.getElementById(detailsId);
+            const isExpanded = details.classList.contains('expanded');
+            
+            if (isExpanded) {
+                details.classList.remove('expanded');
+                button.innerHTML = 'Show details ↓';
+            } else {
+                details.classList.add('expanded');
+                button.innerHTML = 'Hide details ↑';
+            }
+        }
+    </script>
+</body>
+</html>
