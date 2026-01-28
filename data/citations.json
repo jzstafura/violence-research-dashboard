@@ -58,10 +58,10 @@
       "evidenceQuality": 4
     },
     {
-      "id": "hillesund2023",
+      "id": "hillesund2022",
       "authors": "Hillesund, S., & Østby, G.",
-      "year": 2023,
-      "title": "Horizontal inequalities and nonviolent conflict: A comprehensive review",
+      "year": 2022,
+      "title": "Horizontal inequalities, political violence, and nonviolent conflict mobilization: A review of the literature",
       "source": "Journal of Economic Surveys",
       "sourceType": "journal",
       "volume": "37",
@@ -73,8 +73,6 @@
       "theme": "horizontal-inequality",
       "synthesis": "Political exclusion from executive power is stronger predictor of civil war than economic inequality.",
       "studyType": "review",
-      "effectSize": 65,
-      "effectSizeType": "relative importance %",
       "evidenceQuality": 5
     },
     {
