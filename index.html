@@ -659,6 +659,331 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* Citations Browser Section */
+        .citations-browser {
+            padding: 80px 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 0 12px;
+            color: var(--color-text);
+        }
+
+        .section-header p {
+            color: var(--color-text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Search and Filter Controls */
+        .browser-controls {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 16px;
+            margin-bottom: 32px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            color: var(--color-text);
+            font-family: var(--font-sans);
+            font-size: 0.9375rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            background: var(--color-surface-elevated);
+        }
+
+        .search-input::placeholder {
+            color: var(--color-text-dim);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-dim);
+            pointer-events: none;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn, .export-btn {
+            padding: 10px 18px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            color: var(--color-text-muted);
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover, .export-btn:hover {
+            background: var(--color-surface-elevated);
+            border-color: var(--color-text-dim);
+            color: var(--color-text);
+        }
+
+        .filter-btn.active {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: white;
+        }
+
+        .export-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Results Info */
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+        }
+
+        .results-count {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+        }
+
+        .results-count strong {
+            color: var(--color-text);
+            font-weight: 500;
+        }
+
+        .sort-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .sort-label {
+            font-size: 0.8125rem;
+            color: var(--color-text-dim);
+        }
+
+        .sort-select {
+            padding: 6px 12px;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            color: var(--color-text);
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            cursor: pointer;
+        }
+
+        /* Citations Grid */
+        .citations-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .citation-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: all 0.2s;
+        }
+
+        .citation-card:hover {
+            border-color: var(--color-text-dim);
+            transform: translateY(-1px);
+        }
+
+        .citation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .citation-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .citation-type.database { color: #f59e0b; }
+        .citation-type.empirical { color: #10b981; }
+        .citation-type.theoretical { color: #3b82f6; }
+
+        .citation-year {
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            color: var(--color-text-dim);
+        }
+
+        .citation-title {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0 0 8px;
+            color: var(--color-text);
+            line-height: 1.4;
+        }
+
+        .citation-authors {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin-bottom: 4px;
+        }
+
+        .citation-source {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-text-dim);
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .citation-description {
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin: 12px 0;
+        }
+
+        .citation-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0;
+        }
+
+        .meta-tag {
+            padding: 4px 8px;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            color: var(--color-text-dim);
+        }
+
+        .citation-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .citation-link {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .citation-link:hover {
+            color: #60a5fa;
+        }
+
+        .citation-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 10px;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--color-surface-elevated);
+            border-color: var(--color-text-dim);
+        }
+
+        /* Loading and Empty States */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--color-border);
+            border-top-color: var(--color-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            color: var(--color-text);
+            margin: 0 0 8px;
+        }
+
+        .empty-state p {
+            color: var(--color-text-muted);
+        }
     </style>
 </head>
 <body>
@@ -951,6 +1276,67 @@
         </div>
     </section>
 
+    <section class="citations-browser">
+        <div class="section-header">
+            <h2>Research Citations</h2>
+            <p>Browse the complete database of academic references underlying the Violence Evidence Hub</p>
+        </div>
+
+        <!-- Controls -->
+        <div class="browser-controls">
+            <div class="search-box">
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search by author, title, keywords...">
+            </div>
+            
+            <div class="filter-group">
+                <button class="filter-btn active" data-filter="all">All (<span id="totalCount">0</span>)</button>
+                <button class="filter-btn" data-filter="database">Databases</button>
+                <button class="filter-btn" data-filter="empirical">Empirical</button>
+                <button class="filter-btn" data-filter="theoretical">Reviews</button>
+            </div>
+            
+            <button class="export-btn" id="exportBtn">
+                <span>Export CSV</span>
+            </button>
+        </div>
+
+        <!-- Results Info -->
+        <div class="results-info">
+            <div class="results-count">
+                Showing <strong id="resultCount">0</strong> citations
+            </div>
+            <div class="sort-controls">
+                <span class="sort-label">Sort by:</span>
+                <select id="sortSelect" class="sort-select">
+                    <option value="year-desc">Year (Newest)</option>
+                    <option value="year-asc">Year (Oldest)</option>
+                    <option value="author">First Author</option>
+                    <option value="title">Title</option>
+                    <option value="type">Type</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loadingState">
+            <div class="loading-spinner"></div>
+            <p>Loading citations...</p>
+        </div>
+
+        <!-- Citations Grid -->
+        <div class="citations-grid" id="citationsGrid"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">📚</div>
+            <h3>No citations found</h3>
+            <p>Try adjusting your search or filters</p>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
@@ -964,5 +1350,223 @@
             </p>
         </div>
     </footer>
+    <script>
+        let allCitations = [];
+        let filteredCitations = [];
+        let currentFilter = 'all';
+        let currentSort = 'year-desc';
+        let searchQuery = '';
+
+        // Load citations data
+        async function loadCitations() {
+            try {
+                const response = await fetch('./data/citations_complete.json');
+                const data = await response.json();
+                
+                // Combine all citation types
+                allCitations = [
+                    ...data.databases.map(c => ({ ...c, category: 'database' })),
+                    ...data.empirical.map(c => ({ ...c, category: 'empirical' })),
+                    ...data.theoretical.map(c => ({ ...c, category: 'theoretical' }))
+                ];
+                
+                document.getElementById('totalCount').textContent = allCitations.length;
+                filterAndDisplay();
+            } catch (error) {
+                console.error('Error loading citations:', error);
+                document.getElementById('loadingState').innerHTML = 
+                    '<p style="color: var(--color-text-muted);">Error loading citations. Please refresh the page.</p>';
+            }
+        }
+
+        // Filter citations
+        function filterCitations() {
+            filteredCitations = allCitations.filter(citation => {
+                // Type filter
+                if (currentFilter !== 'all' && citation.category !== currentFilter) {
+                    return false;
+                }
+                
+                // Search filter
+                if (searchQuery) {
+                    const searchLower = searchQuery.toLowerCase();
+                    const searchableText = [
+                        citation.authors,
+                        citation.title,
+                        citation.description || citation.keyFindings || citation.coreConcepts || '',
+                        ...(citation.keywords || [])
+                    ].join(' ').toLowerCase();
+                    
+                    if (!searchableText.includes(searchLower)) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+            
+            sortCitations();
+        }
+
+        // Sort citations
+        function sortCitations() {
+            filteredCitations.sort((a, b) => {
+                switch (currentSort) {
+                    case 'year-desc':
+                        return (b.year || 9999) - (a.year || 9999);
+                    case 'year-asc':
+                        return (a.year || 0) - (b.year || 0);
+                    case 'author':
+                        return (a.authors || '').localeCompare(b.authors || '');
+                    case 'title':
+                        return a.title.localeCompare(b.title);
+                    case 'type':
+                        return a.category.localeCompare(b.category);
+                    default:
+                        return 0;
+                }
+            });
+        }
+
+        // Display citations
+        function displayCitations() {
+            const grid = document.getElementById('citationsGrid');
+            const emptyState = document.getElementById('emptyState');
+            const loadingState = document.getElementById('loadingState');
+            
+            loadingState.style.display = 'none';
+            document.getElementById('resultCount').textContent = filteredCitations.length;
+            
+            if (filteredCitations.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            
+            grid.innerHTML = filteredCitations.map(citation => `
+                <article class="citation-card">
+                    <div class="citation-header">
+                        <span class="citation-type ${citation.category}">${citation.category}</span>
+                        <span class="citation-year">${citation.year || 'ongoing'}</span>
+                    </div>
+                    
+                    <h3 class="citation-title">${citation.title}</h3>
+                    <div class="citation-authors">${citation.authors}</div>
+                    ${citation.source ? `<div class="citation-source">${citation.source}</div>` : ''}
+                    
+                    <p class="citation-description">
+                        ${citation.description || citation.keyFindings || citation.coreConcepts || ''}
+                    </p>
+                    
+                    ${citation.keywords ? `
+                        <div class="citation-meta">
+                            ${citation.keywords.map(kw => `<span class="meta-tag">${kw}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="citation-footer">
+                        <a href="${citation.url}" target="_blank" class="citation-link">
+                            ${citation.doi ? 'View DOI' : 'Visit Site'} →
+                        </a>
+                        <div class="citation-actions">
+                            <button class="action-btn" onclick="copyCitation('${citation.id}')" title="Copy citation">📋</button>
+                            <button class="action-btn" onclick="copyBibTeX('${citation.id}')" title="Copy BibTeX">📄</button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Update display
+        function filterAndDisplay() {
+            filterCitations();
+            displayCitations();
+        }
+
+        // Event listeners
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.filter;
+                filterAndDisplay();
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            filterAndDisplay();
+        });
+
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            filterAndDisplay();
+        });
+
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            exportToCSV();
+        });
+
+        // Export to CSV
+        function exportToCSV() {
+            const headers = ['Authors', 'Year', 'Title', 'Source', 'Type', 'URL'];
+            const rows = filteredCitations.map(c => [
+                c.authors,
+                c.year || '',
+                c.title,
+                c.source || '',
+                c.category,
+                c.url
+            ]);
+            
+            const csv = [
+                headers.join(','),
+                ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `violence-citations-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+
+        // Copy citation (APA format)
+        function copyCitation(id) {
+            const citation = allCitations.find(c => c.id === id);
+            if (!citation) return;
+            
+            let apa = `${citation.authors} (${citation.year || 'n.d.'}). ${citation.title}. `;
+            if (citation.source) apa += `${citation.source}. `;
+            if (citation.url) apa += citation.url;
+            
+            navigator.clipboard.writeText(apa);
+            alert('Citation copied to clipboard!');
+        }
+
+        // Copy BibTeX
+        function copyBibTeX(id) {
+            const citation = allCitations.find(c => c.id === id);
+            if (!citation) return;
+            
+            const bibtex = `@article{${id},
+  author = {${citation.authors}},
+  year = {${citation.year || 'n.d.'}},
+  title = {${citation.title}},
+  journal = {${citation.source || 'Unknown'}},
+  url = {${citation.url}}
+}`;
+            
+            navigator.clipboard.writeText(bibtex);
+            alert('BibTeX copied to clipboard!');
+        }
+
+        // Initialize
+        loadCitations();
+    </script>
 </body>
 </html>
