@@ -54,6 +54,15 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        <!-- Section Navigator -->
+    <div class="section-nav">
+        <div class="section-nav-dot active" data-label="Overview" onclick="scrollToSection('hero')"></div>
+        <div class="section-nav-dot" data-label="Ecological Model" onclick="scrollToSection('ecological')"></div>
+        <div class="section-nav-dot" data-label="Key Findings" onclick="scrollToSection('highlights')"></div>
+        <div class="section-nav-dot" data-label="Cross-Level" onclick="scrollToSection('cross-level')"></div>
+        <div class="section-nav-dot" data-label="Citations" onclick="scrollToSection('citations')"></div>
+    </div>
+
         /* Navigation */
         .nav {
             position: sticky;
@@ -127,6 +136,52 @@
             height: 8px;
             border-radius: 50%;
             margin-right: 6px;
+        }
+
+        /* Section Navigator */
+        .section-nav {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .section-nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--color-border);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .section-nav-dot:hover,
+        .section-nav-dot.active {
+            background: var(--color-accent);
+            transform: scale(1.4);
+        }
+
+        .section-nav-dot:hover::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--color-surface-elevated);
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            border: 1px solid var(--color-border);
+        }
+
+        @media (max-width: 768px) {
+            .section-nav { display: none; }
         }
 
         /* Hero Section */
@@ -1014,7 +1069,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero">
+    <header class="hero id-"hero">
         <div class="hero-label">
             <span class="hero-label-dot"></span>
             Violence Evidence Dashboard
@@ -1046,7 +1101,7 @@
     </div>
 
     <!-- Ecological Model Section -->
-    <section class="ecological-section">
+    <section class="ecological-section" id="ecological">
         <div class="section-header">
             <h2>The Ecological Model of Violence</h2>
             <p>Violence emerges from the interaction of factors across multiple levels, from individual vulnerabilities to societal structures.</p>
@@ -1118,7 +1173,7 @@
     </section>
 
     <!-- Research Highlights -->
-    <section class="highlights-section">
+    <section class="highlights-section" id="highlights">
         <div class="section-header" style="margin-bottom: 40px;">
             <h2>Key Research Findings</h2>
             <p>Verified effect sizes and prevalence rates from meta-analyses and systematic reviews</p>
@@ -1240,7 +1295,7 @@
     </section>
 
     <!-- Cross-Level Section -->
-    <section class="cross-level-section">
+    <section class="cross-level-section" id="cross-level">
         <div class="cross-level-card">
             <div class="cross-level-header">
                 <div class="cross-level-icon">🔗</div>
@@ -1277,7 +1332,7 @@
         </div>
     </section>
 
-    <section class="citations-browser">
+    <section class="citations-browser" id="citations">
         <div class="section-header">
             <h2>Research Citations</h2>
             <p>Browse the complete database of academic references underlying the Violence Evidence Hub</p>
@@ -1351,12 +1406,45 @@
             </p>
         </div>
     </footer>
+    
     <script>
         let allCitations = [];
         let filteredCitations = [];
         let currentFilter = 'all';
         let currentSort = 'year-desc';
         let searchQuery = '';
+
+        // Section navigation
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Update active dot on scroll
+        const sections = ['hero', 'ecological', 'highlights', 'cross-level', 'citations'];
+        const navDots = document.querySelectorAll('.section-nav-dot');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const sectionTop = section.offsetTop - 100;
+                    if (scrollY >= sectionTop) {
+                        current = sectionId;
+                    }
+                }
+            });
+            
+            navDots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (sections[index] === current) {
+                    dot.classList.add('active');
+                }
+            });
+        });
 
         // Load citations data
         async function loadCitations() {
