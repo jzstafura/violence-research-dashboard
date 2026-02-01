@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Databases & Resources | Violence Research Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0f1419;
+            --color-surface: #1a2332;
+            --color-surface-elevated: #232f42;
+            --color-border: #2d3a4f;
+            --color-text: #e8eaed;
+            --color-text-muted: #9aa0a6;
+            --color-text-dim: #5f6368;
+            
+            /* Database accent color */
+            --color-accent: #8b5cf6;
+            --color-accent-bg: rgba(139, 92, 246, 0.12);
+            --color-accent-dim: rgba(139, 92, 246, 0.3);
+            
+            --font-serif: 'Source Serif 4', Georgia, serif;
+            --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+            
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-sans);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 20, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+            padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-brand {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: var(--color-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #ef4444, #3b82f6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--color-text);
+            background: var(--color-surface);
+        }
+
+        .nav-link.active {
+            color: var(--color-text);
+            background: var(--color-surface-elevated);
+        }
+
+        .nav-link-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 60px 24px 40px;
+            border-bottom: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--color-accent);
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(ellipse, var(--color-accent-bg) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .page-header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: var(--color-accent-bg);
+            border: 1px solid var(--color-accent-dim);
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-serif);
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin: 0 0 16px;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+            color: var(--color-text-muted);
+            max-width: 800px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 48px;
+            flex-wrap: wrap;
+            padding: 32px 24px;
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .stats-bar-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            gap: 48px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 500;
+            color: var(--color-accent);
+        }
+
+        .stat-label {
+            font-size: 0.8125rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 0 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-accent-bg);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .section-description {
+            color: var(--color-text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 800px;
+        }
+
+        /* Database Grid */
+        .database-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+
+        .database-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: 28px;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .database-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--color-accent);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .database-card:hover {
+            border-color: var(--color-accent-dim);
+            transform: translateY(-2px);
+        }
+
+        .database-card:hover::before {
+            opacity: 1;
+        }
+
+        .database-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .database-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: var(--color-accent-bg);
+            border-radius: var(--radius-sm);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-accent);
+        }
+
+        .database-status {
+            padding: 4px 10px;
+            background: var(--color-bg);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            color: var(--color-text-dim);
+        }
+
+        .database-status.active {
+            color: #10b981;
+        }
+
+        .database-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin: 0 0 8px;
+            line-height: 1.3;
+        }
+
+        .database-organization {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin-bottom: 16px;
+        }
+
+        .database-description {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .database-meta {
+            display: grid;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+        }
+
+        .meta-row {
+            display: flex;
+            gap: 8px;
+            font-size: 0.8125rem;
+        }
+
+        .meta-label {
+            color: var(--color-text-dim);
+            min-width: 90px;
+            font-weight: 500;
+        }
+
+        .meta-value {
+            color: var(--color-text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+        }
+
+        .database-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .database-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--color-accent-bg);
+            border: 1px solid var(--color-accent-dim);
+            border-radius: var(--radius-md);
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .database-link:hover {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: white;
+        }
+
+        .database-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            padding: 4px 8px;
+            background: var(--color-bg);
+            border-radius: var(--radius-sm);
+            font-size: 0.6875rem;
+            color: var(--color-text-dim);
+            font-family: var(--font-mono);
+        }
+
+        /* Featured Database */
+        .featured-database {
+            background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-elevated) 100%);
+            border: 1px solid var(--color-accent-dim);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-database::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(ellipse, var(--color-accent-bg) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .featured-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--color-accent);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        /* Resource Categories */
+        .resource-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .category-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            border-color: var(--color-accent-dim);
+            transform: translateY(-2px);
+        }
+
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--color-accent-bg);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .category-card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0 0 8px;
+        }
+
+        .category-card p {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin: 0 0 12px;
+            line-height: 1.5;
+        }
+
+        .category-count {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-accent);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 40px 24px;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-text);
+        }
+
+        .footer-credit {
+            font-size: 0.8125rem;
+            color: var(--color-text-dim);
+        }
+
+        .footer-credit a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .database-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .resource-categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-bar-inner {
+                flex-direction: column;
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-brand-icon">📊</span>
+                Violence Research Dashboard
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Overview</a>
+                <a href="societal.html" class="nav-link">
+                    <span class="nav-link-dot" style="background: #ef4444;"></span>Societal
+                </a>
+                <a href="community.html" class="nav-link">
+                    <span class="nav-link-dot" style="background: #f59e0b;"></span>Community
+                </a>
+                <a href="relational.html" class="nav-link">
+                    <span class="nav-link-dot" style="background: #10b981;"></span>Relational
+                </a>
+                <a href="individual.html" class="nav-link">
+                    <span class="nav-link-dot" style="background: #3b82f6;"></span>Individual
+                </a>
+                <a href="databases.html" class="nav-link active">
+                    <span class="nav-link-dot" style="background: #8b5cf6;"></span>Databases
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-inner">
+            <div class="page-label">
+                🗄️ Research Infrastructure
+            </div>
+            <h1>Databases & Resources</h1>
+            <p class="page-subtitle">
+                Curated collection of 10 major data sources for violence research, from real-time conflict monitoring to historical archives spanning 200+ years.
+            </p>
+        </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-bar-inner">
+            <div class="stat-item">
+                <div class="stat-value">10</div>
+                <div class="stat-label">Primary Databases</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">200+</div>
+                <div class="stat-label">Countries Covered</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">1815–2024</div>
+                <div class="stat-label">Temporal Coverage</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">200K+</div>
+                <div class="stat-label">Documented Events</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Featured Database -->
+        <section class="featured-database">
+            <div class="featured-badge">⭐ Featured Resource</div>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; margin: 0 0 16px; position: relative;">ACLED: Real-Time Conflict Monitoring</h2>
+            <p style="font-size: 1.125rem; color: var(--color-text-muted); margin: 0 0 24px; line-height: 1.7; position: relative;">
+                The Armed Conflict Location & Event Data Project provides real-time data on political violence and protest across the world. Updated continuously, ACLED is the most comprehensive public collection of political violence and protest data.
+            </p>
+            <div style="display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 24px; position: relative;">
+                <div>
+                    <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-dim); margin-bottom: 4px;">COVERAGE</div>
+                    <div style="font-size: 1rem; color: var(--color-text);">200+ countries & territories</div>
+                </div>
+                <div>
+                    <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-dim); margin-bottom: 4px;">UPDATE FREQUENCY</div>
+                    <div style="font-size: 1rem; color: var(--color-text);">Weekly (near real-time)</div>
+                </div>
+                <div>
+                    <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-dim); margin-bottom: 4px;">HISTORICAL DATA</div>
+                    <div style="font-size: 1rem; color: var(--color-text);">1997–present</div>
+                </div>
+            </div>
+            <a href="https://acleddata.com" target="_blank" class="database-link" style="position: relative;">
+                Visit ACLED →
+            </a>
+        </section>
+
+        <!-- Real-Time & Near Real-Time Data -->
+        <section>
+            <div class="section-header">
+                <h2>
+                    <span class="section-icon">⚡</span>
+                    Real-Time & Event Monitoring
+                </h2>
+                <p class="section-description">
+                    Databases that track violence and conflict as events unfold, providing near real-time updates for rapid response and analysis.
+                </p>
+            </div>
+
+            <div class="database-grid">
+                <article class="database-card">
+                    <div class="database-header">
+                        <span class="database-badge">Real-Time</span>
+                        <span class="database-status active">Active</span>
+                    </div>
+                    <h3 class="database-title">GDELT Project</h3>
+                    <div class="database-organization">Kalev Leetaru & Philip Schrodt</div>
+                    <p class="database-description">
+                        Real-time network database of global human society from news media in 100+ languages. Updates every 15 minutes with event database, Global Knowledge Graph, and visual analysis.
+                    </p>
+                    <div class="database-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Coverage:</span>
+                            <span class="meta-value">Global, 100+ languages</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Updates:</span>
+                            <span class="meta-value">Every 15 minutes</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Data Types:</span>
+                            <span class="meta-value">Events, entities, images, emotions</span>
+                        </div>
+                    </div>
+                    <div class="database-footer">
+                        <a href="https://www.gdeltproject.org" target="_blank" class="database-link">
+                            Visit Database →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="database-card">
+                    <div class="database-header">
+                        <span class="database-badge">Historical</span>
+                        <span class="database-status">Archived</span>
+                    </div>
+                    <h3 class="database-title">PITF Worldwide Atrocities</h3>
+                    <div class="database-organization">Political Instability Task Force</div>
+                    <p class="database-description">
+                        CIA-sponsored database documenting deliberate killing of non-combatant civilians in political conflicts from 1995-2020. Human-coded events with manual geocoding.
+                    </p>
+                    <div class="database-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Coverage:</span>
+                            <span class="meta-value">Global, 1995-2020</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Status:</span>
+                            <span class="meta-value">Updates suspended</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Focus:</span>
+                            <span class="meta-value">Civilian targeting</span>
+                        </div>
+                    </div>
+                    <div class="database-footer">
+                        <a href="https://eventdata.parusanalytics.com/data.dir/atrocities.html" target="_blank" class="database-link">
+                            Visit Database →
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Terrorism & Political Violence -->
+        <section>
+            <div class="section-header">
+                <h2>
+                    <span class="section-icon">🎯</span>
+                    Terrorism & Political Violence
+                </h2>
+                <p class="section-description">
+                    Specialized databases tracking terrorist incidents, political violence, and organized armed conflict worldwide.
+                </p>
+            </div>
+
+            <div class="database-grid">
+                <article class="database-card">
+                    <div class="database-header">
+                        <span class="database-badge">Comprehensive</span>
+                        <span class="database-status active">Active</span>
+                    </div>
+                    <h3 class="database-title">Global Terrorism Database (GTD)</h3>
+                    <div class="database-organization">START, University of Maryland</div>
+                    <p class="database-description">
+                        Open-source database of 200,000+ terrorist events from 1970-2020 (excluding 1993). Includes domestic, transnational, and international incidents with 120+ variables for recent events.
+                    </p>
+                    <div class="database-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Events:</span>
+                            <span class="meta-value">200,000+</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Time Span:</span>
+                            <span class="meta-value">1970-2020</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Variables:</span>
+                            <span class="meta-value">120+ for recent incidents</span>
+                        </div>
+                    </div>
+                    <div class="database-footer">
+                        <a href="https://www.start.umd.edu/gtd" target="_blank" class="database-link">
+                            Visit Database →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="database-card">
+                    <div class="database-header">
+                        <span class="database-badge">International</span>
+                        <span class="database-status active">Active</span>
+                    </div>
+                    <h3 class="database-title">International Crisis Behavior (ICB)</h3>
+                    <div class="database-organization">Brecher & Wilkenfeld, Duke University</div>
+                    <p class="database-description">
+                        Systematic data on international crises from 1918-2021. Documents 512 crises, 1,131 crisis actors, and 1,000 crisis dyads with comprehensive coding of crisis characteristics.
+                    </p>
+                    <div class="database-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Crises:</span>
+                            <span class="meta-value">512 documented</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Time Span:</span>
+                            <span class="meta-value">1918-2021</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Version:</span>
+                            <span class="meta-value">16 (2023)</span>
+                        </div>
+                    </div>
+                    <div class="database-footer">
+                        <a href="https://sites.duke.edu/icbdata" target="_blank" class="database-link">
+                            Visit Database →
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Ethnic & Group Conflict -->
+        <section>
+            <div class="section-header">
+                <h2>
+                    <span class="section-icon">🌍</span>
+                    Ethnic Conflict & Group Relations
+                </h2>
+                <p class="section-description">
+                    Databases focused on ethnic groups, minority status, political exclusion, and group-based violence.
+                </p>
+            </div>
+
+            <div class="database-grid">
+                <article class="database-card">
+                    <div class="database-header">
+                        <span class="database-badge">Ethnic Power</span>
+                        <span class="database-status">Archived</span>
+                    </div>
+                    <h3 class="database-title">Ethnic Power Relations (EPR)</h3>
+                    <div class="database-organization">ETH Zurich</div>
+                    <p class="database-description">
+                        Identifies politically relevant ethnic groups and their access to executive state power globally (1946-2010). Annual data on ~800 groups with power status coding from total control to political discrimination.
+                    </p>
+                    <div class="database-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Groups:</span>
+                            <span class="meta-value">~800 tracked</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Coverage:</span>
+                            <span class="meta-value">1946-2010</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Focus:</span>
+                            <span class="meta-value">Executive power access</span>
+                        </div>
+                    </div>
+                    <div class="database-footer">
+                        <a href="https://icr.ethz.ch/data/epr" target="_blank" class="database-link">
+                            Visit Database →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="database-card">
+                    <div class="database-header">
+                        <span class="database-badge">Minorities</span>
+                        <span class="database-status">Archived</span>
+                    </div>
+                    <h3 class="database-title">Minorities at Risk (MAR)</h3>
+                    <div class="database-organization">University of Maryland</div>
+                    <p class="database-description">
+                        Qualitative and quantitative data on status of minority groups worldwide (1950-2006). Includes group assessments, chronologies, and data on protest, rebellion, repression, and discrimination.
+                    </p>
+                    <div class="database-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Coverage:</span>
+                            <span class="meta-value">Global, 1950-2006</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Data Types:</span>
+                            <span class="meta-value">Qualitative & quantitative</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Focus:</span>
+                            <span class="meta-value">Minority group status</span>
+                        </div>
+                    </div>
+                    <div class="database-footer">
+                        <a href="https://www.mar.umd.edu" target="_blank" class="database-link">
+                            Visit Database →
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Historical & Cross-National -->
+        <section>
+            <div class="section-header">
+                <h2>
+                    <span class="section-icon">📜</span>
+                    Historical & Cross-National Archives
+                </h2>
+                <p class="section-description">
+                    Long-term datasets spanning decades or centuries, enabling historical analysis and trend identification.
+                </p>
+            </div>
+
+            <div class="database-grid">
+                <article class="database-card">
+                    <div class="database-header">
+                        <span class="database-badge">Comprehensive</span>
+                        <span class="database-status active">Active</span>
+                    </div>
+                    <h3 class="database-title">Cross-National Time-Series (CNTS)</h3>
+                    <div class="database-organization">Banks & Wilson, Databanks International</div>
+                    <p class="database-description">
+                        Over 200 years of annual data (1815-2024) for 200+ countries. Includes 196 demographic, political, legislative, economic, and social variables plus 8 types of domestic conflict events.
+                    </p>
+                    <div class="database-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Time Span:</span>
+                            <span class="meta-value">1815-2024 (209 years)</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Countries:</span>
+                            <span class="meta-value">200+</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Variables:</span>
+                            <span class="meta-value">196 tracked annually</span>
+                        </div>
+                    </div>
+                    <div class="database-footer">
+                        <a href="https://www.cntsdata.com" target="_blank" class="database-link">
+                            Visit Database →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="database-card">
+                    <div class="database-header">
+                        <span class="database-badge">Multi-Domain</span>
+                        <span class="database-status active">Active</span>
+                    </div>
+                    <h3 class="database-title">Correlates of War (COW)</h3>
+                    <div class="database-organization">Correlates of War Project</div>
+                    <p class="database-description">
+                        Quantitative data in international relations emphasizing scientific principles and transparency. Covers wars, alliances, diplomatic exchanges, trade, and state capabilities.
+                    </p>
+                    <div class="database-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Domains:</span>
+                            <span class="meta-value">Multiple datasets</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Approach:</span>
+                            <span class="meta-value">Scientific, transparent</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Focus:</span>
+                            <span class="meta-value">International relations</span>
+                        </div>
+                    </div>
+                    <div class="database-footer">
+                        <a href="https://correlatesofwar.org" target="_blank" class="database-link">
+                            Visit Database →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="database-card">
+                    <div class="database-header">
+                        <span class="database-badge">Historical</span>
+                        <span class="database-status active">Active</span>
+                    </div>
+                    <h3 class="database-title">Historical Violence Database (HVD)</h3>
+                    <div class="database-organization">Randolph, Ohio State University</div>
+                    <p class="database-description">
+                        Collaborative research project on history of violent crime, violent death, and collective violence. Regional datasets covering Asia, Europe, and US with specific city/period studies.
+                    </p>
+                    <div class="database-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Regions:</span>
+                            <span class="meta-value">Asia, Europe, US</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Topics:</span>
+                            <span class="meta-value">Homicide, riots, crime</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Structure:</span>
+                            <span class="meta-value">Collaborative, regional</span>
+                        </div>
+                    </div>
+                    <div class="database-footer">
+                        <a href="https://cjrc.osu.edu/research/interdisciplinary/hvd" target="_blank" class="database-link">
+                            Visit Database →
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Usage Guide -->
+        <section style="margin-top: 80px;">
+            <div class="section-header">
+                <h2>
+                    <span class="section-icon">📖</span>
+                    Database Usage Guide
+                </h2>
+            </div>
+
+            <div class="resource-categories">
+                <div class="category-card">
+                    <div class="category-icon">🔍</div>
+                    <h3>For Incident Matching</h3>
+                    <p>Use ACLED, GDELT, or GTD for matching research findings to real-world violent events with specific dates and locations.</p>
+                    <div class="category-count">3 databases recommended</div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">📊</div>
+                    <h3>For Trend Analysis</h3>
+                    <p>Use CNTS or COW for long-term historical trends and cross-national comparisons across decades or centuries.</p>
+                    <div class="category-count">2 databases recommended</div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">🎯</div>
+                    <h3>For Group Dynamics</h3>
+                    <p>Use EPR or MAR for understanding ethnic conflict, political exclusion, and minority group dynamics.</p>
+                    <div class="category-count">2 databases recommended</div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">⚡</div>
+                    <h3>For Real-Time Monitoring</h3>
+                    <p>Use ACLED or GDELT for current events and near real-time tracking of ongoing conflicts and protests.</p>
+                    <div class="category-count">2 databases recommended</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://github.com/jzstafura/violence-research-dashboard" target="_blank">GitHub Repository</a>
+                <a href="https://github.com/jzstafura/violence-evidence-hub" target="_blank">Violence Evidence Hub</a>
+                <a href="https://www.linkedin.com/in/jzstafura" target="_blank">Contact</a>
+            </div>
+            <p class="footer-credit">
+                V-Project © 2026 | Created by <a href="https://www.linkedin.com/in/jzstafura" target="_blank">Joseph Z. Stafura, PhD</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
