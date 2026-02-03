@@ -13,7 +13,7 @@ The Violence Evidence Dashboard presents violence as a complex biopsychosocial p
 - **Relational Level**: Interpersonal dynamics, social networks, peer influences
 - **Individual Level**: Cognitive processes, biological factors, psychological traits
 
-### Current Metrics (v1.0 - January 2026)
+### Current Metrics (v1.1 - February 2026)
 
 - **54+ Studies** synthesized across ecological levels
 - **23 Meta-Analyses** with quantified effect sizes
@@ -269,8 +269,8 @@ This synthesis draws on the foundational work of researchers across cognitive ps
 
 ---
 
-**Last Updated**: January 2026
-**Version**: 1.0
+**Last Updated**: February 2026
+**Version**: 1.1
 **Status**: Active Development
 
 **Note**: This dashboard synthesizes published research for educational purposes. All findings should be verified against original sources via provided DOI links.
