@@ -1,72 +1,73 @@
-# Violence Research Dashboard
+# Violence Evidence Dashboard
+
+An interactive research synthesis platform that integrates evidence across multiple disciplines to understand violence through a multi-level ecological framework. The dashboard organizes 54+ studies spanning cognitive neuroscience, social psychology, criminology, structural sociology, environmental science, and digital communication research.
+
+**Live Dashboard:** [https://jzstafura.github.io/violence-research-dashboard/](https://jzstafura.github.io/violence-research-dashboard/)
 
 ## Overview
 
-The Violence Project Dashboard is an interactive research dashboard synthesizing multi-domain evidence on the mechanisms, risk factors, and structural determinants of violence. This project integrates findings from cognitive neuroscience, social psychology, criminology, structural sociology, environmental science, and digital communication research to provide a comprehensive, empirically-grounded understanding of violence as a complex biopsychosocial phenomenon.
+The Violence Evidence Dashboard presents violence as a complex biopsychosocial phenomenon, organizing research findings across four ecological levels:
 
-**Live Dashboard**: [View the interactive dashboard](https://jzstafura.github.io/violence-research-dashboard/)
+- **Societal Level**: Structural factors, political systems, historical legacies
+- **Community Level**: Neighborhood characteristics, collective efficacy, resource distribution
+- **Relational Level**: Interpersonal dynamics, social networks, peer influences
+- **Individual Level**: Cognitive processes, biological factors, psychological traits
 
-**Repository**: [GitHub](https://github.com/jzstafura/violence-research-dashboard)
+### Current Metrics (v1.0 - January 2026)
 
-## Current Status (v1.0 - January 2026)
+- **54+ Studies** synthesized across ecological levels
+- **23 Meta-Analyses** with quantified effect sizes
+- **12 Key Constructs** from theory to implementation
+- **4 Ecological Levels** providing comprehensive coverage
+- **6 Research Domains**: Theory, Structural, Bio/Environmental, Psychological, Communication, Historical
 
-The V-Project has recently undergone a major architectural upgrade:
+## Features
 
-- **13 Citations**: Fully structured in JSON with comprehensive metadata
-- **Dynamic Interface**: Real-time search and filtering capabilities
-- **Export Functions**: Download citations in TXT or BibTeX format
-- **Statistics Dashboard**: Automated metrics and domain distribution
-- **Modular Architecture**: Separated data, logic, and presentation layers
-- **Version Controlled**: Git-based workflow for collaborative development
+### Interactive Ecological Model
+- **Concentric Rings Visualization**: Navigate between Societal, Community, Relational, and Individual levels through an interactive diagram
+- **Level-Specific Pages**: Dedicated sections for each ecological level with relevant research findings
+- **Cross-Level Integration**: Explore how phenomena like online radicalization span multiple levels
 
-**Current Database Coverage**:
-- Theory (2 citations) - GAM, GST frameworks
-- Structural (3 citations) - Collective efficacy, horizontal inequality
-- Bio/Environmental (2 citations) - Temperature effects, substance misuse
-- Psychological (2 citations) - ACEs, mental illness risk
-- Communication (3 citations) - Algorithmic polarization, online hate
-- Historical (1 citation) - Colonial legacy and violence
+### Advanced Citation Browser
+The dashboard includes a comprehensive research database with:
+- **Real-time Search**: Filter across titles, authors, keywords, and abstracts
+- **Type Filtering**: View all citations or filter by Databases, Empirical studies, or Reviews
+- **Multi-Sort Options**: Sort by year, author, title, or study type
+- **Export Functionality**: Download citations as CSV or copy individual BibTeX entries
+- **Rich Metadata**: Each citation includes DOI links, keywords, and ecological level tags
 
-**Immediate Goals**: Expand to 30 high-quality citations by end of February 2026.
+### Key Research Findings Dashboard
+- **Effect Size Cards**: Visual presentation of meta-analytic findings with color-coded ecological levels
+- **Quantified Evidence**: Direct access to specific effect magnitudes and prevalence rates
+- **Source Attribution**: DOI links to original publications for verification
 
-## Getting Started
-
-### For Users
-1. Visit the [live dashboard](https://jzstafura.github.io/violence-research-dashboard/)
-2. Use search to find specific topics or authors
-3. Filter by domain or publication year
-4. Export citations for your research or teaching
-
-### For Contributors
-1. Review [GIT_STRUCTURE.md](docs/GIT_STRUCTURE.md) for repository organization
-2. See [QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md) for daily workflow
-3. Submit citations following the quality checklist
-4. Create pull requests for new features
-
-### For Developers
-1. Clone the repository
-2. Review `data/citations.json` for data structure
-3. Examine `assets/js/data-loader.js` for implementation
-4. Test locally: `python -m http.server 8000`
+### Navigation & UX
+- **Sticky Navigation Bar**: Quick access to all ecological levels
+- **Fixed Section Navigator**: Jump between major content areas
+- **Responsive Design**: Optimized for desktop and mobile viewing
+- **Smooth Scrolling**: Enhanced user experience across sections
 
 ## Theoretical Framework
 
-### Core Integration Model
+### Ecological Model (Primary Framework)
+Organizes evidence across nested levels of influence, from broad societal structures to individual-level factors. This framework emphasizes that violence results from complex interactions across multiple systems.
 
-The dashboard synthesizes four complementary theoretical perspectives:
+### Complementary Theories
+
+The dashboard integrates multiple theoretical perspectives:
 
 1. **General Aggression Model (GAM)** - Cognitive-affective processing framework
    - Person × Situation inputs → Internal state (cognition, affect, arousal) → Behavioral outcomes
    - Explains episodic aggression through iterative decision cycles
-   
+
 2. **General Strain Theory (GST)** - Structural-functional framework
    - Violence as maladaptive coping response to negative stimuli
    - Focus on blocked pain-avoidance and escape attempts from strain
-   
+
 3. **Historical Path Dependence** - Institutional legacy framework
    - Colonial administrative structures create durable group boundaries
    - Historical imprints predict contemporary ethnic violence patterns
-   
+
 4. **Horizontal Inequality (HI)** - Group-based conflict framework
    - Political exclusion as primary catalyst for civil violence
    - Distinction between economic inequality and power asymmetries
@@ -79,111 +80,12 @@ Violence operates through a mechanism analogous to viral infection:
 - **Transmission vectors**: Social/digital networks that amplify aggressive scripts
 - **Climatic multipliers**: Heat stress and resource scarcity as proximate triggers
 
-## Evidence Domains
+## Key Research Findings
 
-### 1. Cognitive-Neuroscience Domain
-- General Aggression Model empirical validation
-- Hostile attribution bias and schema activation
-- Affect-as-information processing in aggression decisions
-
-### 2. Structural-Social Domain
-- Social disorganization and collective efficacy
-- Horizontal inequalities and group-based grievances
-- Economic deprivation and neighborhood violence disparities
-
-### 3. Bio-Environmental Domain
-- Temperature-violence relationship (meta-analytic evidence)
-- Substance misuse as violence risk multiplier
-- Neurodevelopmental impacts of adverse childhood experiences
-
-### 4. Psychological-Clinical Domain
-- Adverse Childhood Experiences (ACEs) prevalence in justice-involved populations
-- Mental illness and violence: relative vs. absolute risk
-- Trauma-informed understanding of aggression
-
-### 5. Communication-Digital Domain
-- Algorithmic polarization and recommendation amplification
-- Online dehumanization and "fun" as violence catalyst
-- Meme culture and collective aggression
-
-### 6. Historical-Institutional Domain
-- Colonial legacy effects on civil violence patterns
-- Path-dependent institutional imprints
-- Administrative style and contemporary conflict
-
-## Methodology
-
-### Literature Selection Criteria
-- Peer-reviewed empirical studies and systematic reviews
-- Meta-analyses where available for effect size estimation
-- Recent publications (2017-2025) prioritized for currency
-- Cross-domain integration to avoid siloed understanding
-
-### Evidence Standards
-- All citations include DOI or stable URLs for verification
-- Effect sizes reported where available (e.g., +1°C = 1.64% violence increase)
-- Prevalence data from systematic reviews (e.g., 87% ACEs in justice-involved youth)
-- Distinction between correlation and causal mechanisms noted
-
-### Synthesis Approach
-- Multi-level analysis: individual → community → societal
-- Interactive visualization of risk factor magnitudes
-- Domain filtering for targeted literature exploration
-- Theoretical perspective toggling for conceptual clarity
-
-## Dashboard Features
-
-### Architecture (v1.0)
-
-**Data Management**:
-- Structured JSON database (`data/citations.json`)
-- 13 fully-structured citations with comprehensive metadata
-- Version control and update tracking
-- Modular JavaScript architecture (`assets/js/data-loader.js`)
-
-**Dynamic Interface**:
-- Citations loaded dynamically from JSON (no hardcoded content)
-- Real-time search across all fields (title, authors, synthesis, keywords)
-- Advanced filtering (domain + year)
-- Export to TXT and BibTeX formats
-- Live statistics dashboard
-
-### Interactive Components
-
-1. **Mechanisms of Action Panel**
-   - Toggle between GAM, GST, Path Dependence, and HI frameworks
-   - Dynamic content explaining each theoretical lens
-   
-2. **Master Evidence Library**
-   - Full APA 7th edition citations with verified links
-   - Domain-based filtering (Theory, Structural, Bio, Psych, Comm, History)
-   - Year-based filtering (individual years)
-   - Real-time search functionality
-   - Export filtered results to TXT or BibTeX
-   - Synthesis of core findings for each source
-   
-3. **Visual Analytics**
-   - Bar chart: Comparative effect sizes of major risk factors
-   - Radar chart: Internal state dynamics from GAM framework
-
-4. **Statistics Dashboard**
-   - Total citation count
-   - Citations with quantified effect sizes
-   - Average evidence quality rating
-   - Domain distribution
-
-### Domain Tags
-- **Theory** (Blue): Integrative theoretical frameworks
-- **Structural** (Indigo): Social organization and inequality
-- **Bio** (Orange): Environmental and biological factors
-- **Psych** (Purple): Clinical and developmental psychology
-- **Comm** (Green): Digital communication and media
-- **History** (Red): Historical and institutional legacy
-
-## Key Findings Summary
+The dashboard synthesizes evidence including:
 
 ### Risk Factor Magnitudes (Approximate Effect Sizes)
-- **Temperature**: +1°C → 1.64% increase in violent events
+- **Temperature**: +1°C → 1.64% increase in violent events (meta-analysis)
 - **ACEs Prevalence**: 87% among justice-involved youth
 - **Substance Misuse**: 72% correlation with violence risk
 - **Political Exclusion**: 65% stronger predictor than economic inequality
@@ -195,6 +97,112 @@ Violence operates through a mechanism analogous to viral infection:
 - **Substance misuse + mental illness** creates higher absolute risk than either alone
 - **Heat effects** specific to interpersonal violence, not property crime
 - **Historical legacies** remain statistically significant controlling for current conditions
+
+## Getting Started
+
+### Exploring the Dashboard
+
+1. **Navigate by Level**: Use the top navigation bar to jump to Societal, Community, Relational, or Individual sections
+2. **Browse Research**: Scroll through key findings cards organized by ecological level
+3. **Search Citations**: Use the citation browser to find specific topics, authors, or study types
+4. **Filter Evidence**: Apply type filters (Databases/Empirical/Reviews) and sort options
+5. **Export Data**: Download citations as CSV or copy individual BibTeX entries
+
+### For Developers
+
+The dashboard uses a modular architecture:
+- **Data Layer**: Structured JSON database with comprehensive metadata (`data/citations.json`)
+- **Logic Layer**: JavaScript modules (`CitationManager`, `UIHelpers` classes)
+- **Presentation Layer**: HTML5 with Tailwind CSS styling
+- **Visualization**: Chart.js for interactive graphics
+- **Deployment**: GitHub Pages for public accessibility
+
+**Local Testing**:
+```bash
+python -m http.server 8000
+```
+
+Review `docs/GIT_STRUCTURE.md` and `docs/QUICK_REFERENCE.md` for technical documentation.
+
+## Contributing
+
+We welcome contributions of peer-reviewed research across all ecological levels. Priority areas include:
+
+- **Societal Level**: Structural inequality, policy impacts, historical analysis
+- **Community Level**: Neighborhood effects, collective efficacy, resource distribution
+- **Relational Level**: Peer influences, family dynamics, social network effects
+- **Individual Level**: Neuroscience, developmental factors, psychological mechanisms
+
+### Contribution Guidelines
+
+**Citation Requirements:**
+- Peer-reviewed publication with stable DOI or URL
+- Clear classification by ecological level and study type (Database/Empirical/Review)
+- 1-2 sentence synthesis in your own words
+- Evidence quality rating (1-5 scale)
+- Relevant keywords and metadata
+
+**Submission Process:**
+1. Fork the repository
+2. Add citation to `data/citations.json` following the JSON template structure
+3. Include ecological level, study type, and comprehensive metadata
+4. Update `metadata.totalCitations` count
+5. Test locally to ensure valid JSON
+6. Submit pull request with clear description of contribution
+
+**Current Priorities:**
+- Meta-analyses with quantified effect sizes
+- Recent publications (2020-2025) with robust methodology
+- Cross-level integration studies
+- Expansion of Community and Relational level evidence
+
+### JSON Template
+
+```json
+{
+  "id": "unique-identifier",
+  "authors": "Author, A., & Author, B.",
+  "year": 2024,
+  "title": "Study Title",
+  "source": "Journal Name, Volume(Issue), Pages",
+  "doi": "https://doi.org/10.xxxx/xxxxx",
+  "level": "Societal|Community|Relational|Individual",
+  "type": "Database|Empirical|Review",
+  "keywords": ["keyword1", "keyword2"],
+  "synthesis": "Brief 1-2 sentence summary",
+  "quality": 4
+}
+```
+
+### Technical Contributions
+
+Beyond citations, we welcome:
+- **Feature Enhancements**: Network visualization, advanced filtering, timeline charts
+- **Validation Scripts**: JSON schema validation, DOI link checking
+- **Documentation**: Tutorial improvements, translation support
+- **Bug Fixes**: Any issues found in the dashboard
+
+See [GIT_STRUCTURE.md](docs/GIT_STRUCTURE.md) for branch strategy and [QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md) for development workflow.
+
+## Repository Structure
+
+```
+violence-research-dashboard/
+├── index.html                  # Main dashboard with ecological model
+├── societal.html              # Societal level evidence page
+├── community.html             # Community level evidence page
+├── relational.html            # Relational level evidence page
+├── individual.html            # Individual level evidence page
+├── data/
+│   └── citations.json         # Research database (54+ citations)
+├── assets/
+│   └── js/
+│       └── data-loader.js     # Citation management and UI logic
+└── docs/
+    ├── GIT_STRUCTURE.md       # Technical documentation
+    ├── QUICK_REFERENCE.md     # Developer reference
+    └── SUGGESTIONS.md         # Enhancement roadmap
+```
 
 ## Research Applications
 
@@ -213,171 +221,43 @@ Violence operates through a mechanism analogous to viral infection:
 - Interactive demonstration of biopsychosocial frameworks
 - Empirical grounding for complex social phenomena
 
-## Technical Stack
+## Roadmap
 
-**Architecture** (v1.0):
-- **Data Layer**: Structured JSON database with comprehensive metadata
-- **Logic Layer**: JavaScript modules (CitationManager, UIHelpers)
-- **Presentation Layer**: HTML5 with Tailwind CSS for responsive design
-- **Visualization**: Chart.js for interactive data visualization
-- **Deployment**: GitHub Pages for public accessibility
-- **Version Control**: Git with semantic versioning
-- **Citation Management**: APA 7th edition with DOI linking
+### Immediate (1-2 Months)
+- Expand to 75+ high-quality citations across all levels
+- Add automated JSON validation
+- Implement year-range slider filtering
+- Enhanced ecological level visualizations
 
-**Key Features**:
-- Separation of data, logic, and presentation
-- Dynamic loading (no hardcoded citations)
-- Modular, reusable code
-- Easy to maintain and extend
-- Scalable to 100+ citations
+### Short-term (3-6 Months)
+- Network visualization showing cross-level theoretical relationships
+- Effect-size forest plots for meta-analyses
+- Citation detail modals with full abstracts
+- Advanced statistical aggregation tools
 
-## Future Development
-
-### Recently Completed (v1.0 - January 2026)
-- ✅ JSON data structure with comprehensive metadata
-- ✅ Dynamic loading and real-time search
-- ✅ Domain and year filtering
-- ✅ Export to TXT and BibTeX formats
-- ✅ Statistics dashboard
-- ✅ Modular JavaScript architecture
-
-### Immediate Priorities (Next 1-2 Months)
-- [ ] Expand to 30 citations across all domains
-- [ ] Implement automated validation (JSON schema, DOI checking)
-- [ ] Add year range slider for better temporal filtering
-- [ ] Study type filter (meta-analysis, empirical, review)
-- [ ] Timeline visualization showing research trends by year
-
-### Short-Term Enhancements (3-6 Months)
-- [ ] Network visualization of theoretical concept relationships
-- [ ] Keyword tag filtering with co-occurrence mapping
-- [ ] Enhanced effect size forest plots
-- [ ] Citation detail modal with full metadata display
-- [ ] Reach 50+ verified sources across all domains
-
-### Long-Term Vision (6-12 Months)
-- [ ] Interactive theory builder (parameter adjustment)
-- [ ] Educational modules with guided tours
-- [ ] Policy translation tools (evidence briefs)
-- [ ] Integration with external databases (PubMed API)
-- [ ] Collaborative features (community contributions)
-- [ ] Geographic heat maps of violence patterns
-
-### Data Integration Goals
-- [ ] Integration with public datasets (CDC, FBI UCR, WHO)
-- [ ] Meta-analytic effect size database
-- [ ] Interactive parameter adjustment for risk modeling
-
-## Repository Structure
-
-```
-violence-research-dashboard/
-├── index.html                    # Main dashboard (deploy index-json-powered.html here)
-├── README.md                     # This file
-├── data/
-│   └── citations.json           # Main citation database (13 citations)
-├── assets/
-│   └── js/
-│       └── data-loader.js       # JavaScript module for data management
-├── docs/                        # Extended documentation
-│   ├── GIT_STRUCTURE.md        # Repository organization guide
-│   ├── QUICK_REFERENCE.md      # Daily workflow reference
-│   └── SUGGESTIONS.md          # Enhancement roadmap
-└── scripts/                     # Validation and maintenance scripts (future)
-```
-
-**Key Files**:
-- `data/citations.json`: Structured database with all citations and metadata
-- `assets/js/data-loader.js`: CitationManager and UIHelpers classes
-- `index.html`: Dynamic dashboard (loads from JSON)
-- `docs/`: Comprehensive documentation for users and developers
-
-## Contributing
-
-This is a research synthesis project maintained by [jzstafura](https://www.linkedin.com/in/jzstafura). Contributions are welcome! The project uses a structured JSON database that makes adding citations straightforward.
-
-### How to Contribute Citations
-
-**Quick Process**:
-1. Fork the repository
-2. Add your citation to `data/citations.json` following the template
-3. Update `metadata.totalCitations` count
-4. Test locally to ensure valid JSON
-5. Submit a pull request
-
-**Citation Template**:
-```json
-{
-  "id": "authorYEAR",
-  "authors": "Author, A., & Author, B.",
-  "year": 2025,
-  "title": "Title of the work",
-  "source": "Journal Name",
-  "sourceType": "journal",
-  "doi": "10.xxxx/xxxxx",
-  "url": "https://doi.org/10.xxxx/xxxxx",
-  "domain": "Theory|Structural|Bio|Psych|Comm|History",
-  "keywords": ["keyword1", "keyword2"],
-  "synthesis": "1-2 sentence summary of core findings",
-  "studyType": "meta-analysis|empirical|review|theoretical",
-  "evidenceQuality": 1-5
-}
-```
-
-### Contribution Guidelines
-
-**Quality Standards**:
-- Sources must be peer-reviewed or from reputable research institutions
-- Must include stable URL/DOI for verification
-- Should advance multi-domain integration (avoid redundant single-domain sources)
-- Synthesis statement must be in your own words (1-2 sentences)
-- Evidence quality rating should be justified
-
-**What We're Looking For**:
-- High-impact meta-analyses and systematic reviews
-- Recent publications (2020-2025) across all domains
-- Cross-domain integrative studies
-- Foundational theoretical works
-- Methodologically rigorous empirical studies
-
-**Current Priorities** (see [SUGGESTIONS.md](docs/SUGGESTIONS.md)):
-- Structural domain expansion (social disorganization, collective efficacy)
-- Bio/environmental domain (lead exposure, air quality, nutrition)
-- Psychological domain (executive function, emotion regulation, PTSD)
-- Communication domain (deplatforming, counter-narratives)
-- Historical domain (slavery legacy, Jim Crow persistence)
-
-### Technical Contributions
-
-Beyond citations, we welcome:
-- **Feature Enhancements**: Network visualization, advanced filtering, timeline charts
-- **Validation Scripts**: JSON schema validation, DOI link checking
-- **Documentation**: Tutorial improvements, translation support
-- **Bug Fixes**: Any issues found in the dashboard
-
-See [GIT_STRUCTURE.md](docs/GIT_STRUCTURE.md) for branch strategy and [QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md) for development workflow.
-
-### Questions or Suggestions?
-
-- **Citations**: Open a GitHub issue with "Citation Submission" label
-- **Features**: Open a GitHub issue with "Enhancement" label  
-- **Bugs**: Open a GitHub issue with "Bug" label
-- **General**: Email via LinkedIn profile
+### Long-term Vision (6-12 Months)
+- Integration with external research databases (PubMed, PsycINFO)
+- Machine learning-assisted citation categorization
+- Interactive causal pathway mapping
+- Collaborative annotation features for researchers
+- Educational modules with guided tours
+- Policy translation tools (evidence briefs)
 
 ## Citation
 
 If you use this dashboard in your research or teaching, please cite:
 
 ```
-Stafura, J. Z. (2026). Violence Research Dashboard: Multi-Domain Evidence Synthesis. 
+Stafura, J. Z. (2026). Violence Research Dashboard: Multi-Domain Evidence Synthesis.
 GitHub repository. https://github.com/jzstafura/violence-research-dashboard
 ```
 
 ## Contact
 
-**Joseph Z. Stafura, PhD**  
+**Joseph Z. Stafura, PhD**
 - LinkedIn: [linkedin.com/in/jzstafura](https://www.linkedin.com/in/jzstafura)
 - Google Scholar: [Publications](https://scholar.google.com/citations?user=F6LcYIoAAAAJ&hl=en)
+- GitHub Issues: [Report bugs or suggest features](https://github.com/jzstafura/violence-research-dashboard/issues)
 
 ## License
 
@@ -389,6 +269,8 @@ This synthesis draws on the foundational work of researchers across cognitive ps
 
 ---
 
-**Last Updated**: January 2026  
-**Version**: 1.0  
+**Last Updated**: January 2026
+**Version**: 1.0
 **Status**: Active Development
+
+**Note**: This dashboard synthesizes published research for educational purposes. All findings should be verified against original sources via provided DOI links.
