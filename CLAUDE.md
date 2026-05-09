@@ -43,7 +43,7 @@ Two JSON files with **different schemas**:
 ```
 Citation fields: `id`, `authors`, `year`, `title`, `source`, `sourceType`, `doi`, `url`, `ecologicalLevel`, `theme`, `synthesis`, `studyType`, `evidenceQuality` (1–5), `keywords[]`
 
-**`citations_complete.json`** (v3.0.0, 34 items) — Sectioned format with no top-level `citations` array:
+**`citations_complete.json`** (v3.1.0, 45 items) — Sectioned format with no top-level `citations` array:
 ```json
 { "metadata": {...}, "databases": [...], "empirical": [...], "theoretical": [...] }
 ```
@@ -65,7 +65,6 @@ CSS custom properties for ecological level colors (defined in each page's `<styl
 Three-font system loaded via Google Fonts: Source Serif 4 (headings), IBM Plex Sans (body), IBM Plex Mono (data/citations).
 
 ## Known Issues
-- `community.html` has unresolved git merge conflicts — must be resolved before serving
 - Multiple root-level planning/documentation files (`START_HERE.md`, `SUGGESTIONS.md`, `DEPLOYMENT_CHECKLIST.md`, `QUICK_REFERENCE.md`, etc.) are untracked leftovers from a prior workflow and are not part of the site
 - `gitignore` file in root is misnamed (should be `.gitignore`) — the actual `.gitignore` exists separately
 
