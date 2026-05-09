@@ -1,25 +1,24 @@
-# Violence Evidence Dashboard
+# Violence Research Dashboard
 
-An interactive research synthesis platform that integrates evidence across multiple disciplines to understand violence through a multi-level ecological framework. The dashboard organizes 54+ studies spanning cognitive neuroscience, social psychology, criminology, structural sociology, environmental science, and digital communication research.
+An interactive research synthesis platform that integrates evidence across multiple disciplines to understand violence through a multi-level ecological framework. The dashboard organizes 45 citations spanning cognitive neuroscience, social psychology, criminology, structural sociology, environmental science, and digital communication research.
 
 **Live Dashboard:** [https://jzstafura.github.io/violence-research-dashboard/](https://jzstafura.github.io/violence-research-dashboard/)
 
 ## Overview
 
-The Violence Evidence Dashboard presents violence as a complex biopsychosocial phenomenon, organizing research findings across four ecological levels:
+The Violence Research Dashboard presents violence as a complex biopsychosocial phenomenon, organizing research findings across four ecological levels:
 
 - **Societal Level**: Structural factors, political systems, historical legacies
 - **Community Level**: Neighborhood characteristics, collective efficacy, resource distribution
 - **Relational Level**: Interpersonal dynamics, social networks, peer influences
 - **Individual Level**: Cognitive processes, biological factors, psychological traits
 
-### Current Metrics (v1.1 - February 2026)
+### Current Metrics (v3.1.0 - May 2026)
 
-- **54+ Studies** synthesized across ecological levels
-- **23 Meta-Analyses** with quantified effect sizes
+- **45 Citations** synthesized across ecological levels
+- **11 Meta-Analyses** with quantified effect sizes
 - **12 Key Constructs** from theory to implementation
 - **4 Ecological Levels** providing comprehensive coverage
-- **6 Research Domains**: Theory, Structural, Bio/Environmental, Psychological, Communication, Historical
 
 ## Features
 
@@ -110,19 +109,15 @@ The dashboard synthesizes evidence including:
 
 ### For Developers
 
-The dashboard uses a modular architecture:
-- **Data Layer**: Structured JSON database with comprehensive metadata (`data/citations.json`)
-- **Logic Layer**: JavaScript modules (`CitationManager`, `UIHelpers` classes)
-- **Presentation Layer**: HTML5 with Tailwind CSS styling
-- **Visualization**: Chart.js for interactive graphics
-- **Deployment**: GitHub Pages for public accessibility
+The dashboard is pure static HTML/CSS/JavaScript — no build tools or framework required:
+- **Data Layer**: `data/citations_complete.json` — primary citation database (45 citations, sectioned as `databases`/`empirical`/`theoretical`). Fetched directly by `index.html` via `fetch()`.
+- **Presentation Layer**: Vanilla CSS with custom properties (dark-mode-first). No Tailwind on deployed pages.
+- **Deployment**: GitHub Pages
 
 **Local Testing**:
 ```bash
 python -m http.server 8000
 ```
-
-Review `docs/GIT_STRUCTURE.md` and `docs/QUICK_REFERENCE.md` for technical documentation.
 
 ## Contributing
 
@@ -137,40 +132,40 @@ We welcome contributions of peer-reviewed research across all ecological levels.
 
 **Citation Requirements:**
 - Peer-reviewed publication with stable DOI or URL
-- Clear classification by ecological level and study type (Database/Empirical/Review)
-- 1-2 sentence synthesis in your own words
-- Evidence quality rating (1-5 scale)
+- Clear classification by ecological level and study type
+- 1-2 sentence summary of key findings
 - Relevant keywords and metadata
 
 **Submission Process:**
 1. Fork the repository
-2. Add citation to `data/citations.json` following the JSON template structure
-3. Include ecological level, study type, and comprehensive metadata
-4. Update `metadata.totalCitations` count
-5. Test locally to ensure valid JSON
-6. Submit pull request with clear description of contribution
+2. Add citation to `data/citations_complete.json` in the appropriate section (`databases`, `empirical`, or `theoretical`)
+3. Update `metadata.totalCitations` count
+4. Validate: `python -m json.tool data/citations_complete.json`
+5. Submit pull request with clear description of contribution
 
 **Current Priorities:**
 - Meta-analyses with quantified effect sizes
 - Recent publications (2020-2025) with robust methodology
 - Cross-level integration studies
-- Expansion of Community and Relational level evidence
+- Expansion of Relational level evidence
 
 ### JSON Template
 
+Add to the `empirical` array in `data/citations_complete.json`:
+
 ```json
 {
-  "id": "unique-identifier",
+  "id": "authorYYYY",
   "authors": "Author, A., & Author, B.",
   "year": 2024,
   "title": "Study Title",
-  "source": "Journal Name, Volume(Issue), Pages",
-  "doi": "https://doi.org/10.xxxx/xxxxx",
-  "level": "Societal|Community|Relational|Individual",
-  "type": "Database|Empirical|Review",
-  "keywords": ["keyword1", "keyword2"],
-  "synthesis": "Brief 1-2 sentence summary",
-  "quality": 4
+  "source": "Journal Name",
+  "doi": "10.xxxx/xxxxx",
+  "url": "https://doi.org/10.xxxx/xxxxx",
+  "ecologicalLevel": "societal|community|relational|individual",
+  "sourceType": "empirical|meta-analysis|systematic-review|theoretical|database",
+  "keyFindings": "1–2 sentence summary of key results",
+  "keywords": ["keyword1", "keyword2"]
 }
 ```
 
@@ -182,26 +177,22 @@ Beyond citations, we welcome:
 - **Documentation**: Tutorial improvements, translation support
 - **Bug Fixes**: Any issues found in the dashboard
 
-See [GIT_STRUCTURE.md](docs/GIT_STRUCTURE.md) for branch strategy and [QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md) for development workflow.
-
 ## Repository Structure
 
 ```
 violence-research-dashboard/
-├── index.html                  # Main dashboard with ecological model
-├── societal.html              # Societal level evidence page
-├── community.html             # Community level evidence page
-├── relational.html            # Relational level evidence page
-├── individual.html            # Individual level evidence page
+├── index.html                      # Main dashboard (fetches citations_complete.json)
+├── societal.html                   # Societal level — hardcoded study cards
+├── community.html                  # Community level — hardcoded study cards
+├── relational.html                 # Relational level — hardcoded study cards
+├── individual.html                 # Individual level — hardcoded study cards
+├── databases.html                  # External conflict/violence database listing
 ├── data/
-│   └── citations.json         # Research database (54+ citations)
-├── assets/
-│   └── js/
-│       └── data-loader.js     # Citation management and UI logic
-└── docs/
-    ├── GIT_STRUCTURE.md       # Technical documentation
-    ├── QUICK_REFERENCE.md     # Developer reference
-    └── SUGGESTIONS.md         # Enhancement roadmap
+│   ├── citations_complete.json     # Primary data: 45 citations (databases/empirical/theoretical)
+│   └── citations.json             # Secondary: 22 citations with ecologicalLevel schema
+└── assets/
+    └── js/
+        └── data-loader.js          # CitationManager/UIHelpers (prototype use only)
 ```
 
 ## Research Applications
@@ -224,7 +215,6 @@ violence-research-dashboard/
 ## Roadmap
 
 ### Immediate (1-2 Months)
-- Expand to 75+ high-quality citations across all levels
 - Add automated JSON validation
 - Implement year-range slider filtering
 - Enhanced ecological level visualizations
@@ -269,8 +259,8 @@ This synthesis draws on the foundational work of researchers across cognitive ps
 
 ---
 
-**Last Updated**: February 2026
-**Version**: 1.1
+**Last Updated**: May 2026
+**Version**: 3.1.0
 **Status**: Active Development
 
 **Note**: This dashboard synthesizes published research for educational purposes. All findings should be verified against original sources via provided DOI links.
